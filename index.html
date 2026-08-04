@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rutgers Undergraduate AI Literacy Learning Experience</title>
+  <style>
+    :root {
+      --rutgers-red: #cc0033;
+      --ink: #17191d;
+      --muted: #5c6570;
+      --line: #d8dee6;
+      --paper: #ffffff;
+      --soft: #f4f6f9;
+      --blue: #245c7a;
+      --green: #2d7a44;
+      --gold: #9d6b15;
+      --violet: #6a4b87;
+      --shadow: 0 8px 26px rgba(20, 28, 38, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--soft);
+      line-height: 1.45;
+    }
+
+    .shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    aside {
+      background: #1b1d21;
+      color: #fff;
+      padding: 24px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .brand {
+      border-left: 6px solid var(--rutgers-red);
+      padding-left: 12px;
+      margin-bottom: 28px;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1.08rem;
+    }
+
+    .brand span {
+      display: block;
+      color: #c8ced8;
+      font-size: 0.86rem;
+      margin-top: 4px;
+    }
+
+    nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    nav button {
+      text-align: left;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: #eef2f7;
+      padding: 10px 12px;
+      font-weight: 800;
+      cursor: pointer;
+      min-height: 40px;
+    }
+
+    nav button[aria-selected="true"] {
+      background: var(--rutgers-red);
+      color: #fff;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    .topbar {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    .content {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .overview-grid,
+    .activity-grid,
+    .rubric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(340px, 1.1fr);
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .card h3,
+    .panel h2 {
+      margin: 0;
+    }
+
+    .card p,
+    .panel p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .metric {
+      min-height: 132px;
+      border-top: 4px solid var(--rutgers-red);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 2rem;
+      margin: 4px 0;
+    }
+
+    .pill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 9px;
+      background: #fff;
+      color: #303943;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .pathway {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .step {
+      position: relative;
+      min-height: 170px;
+      border-left: 4px solid var(--blue);
+    }
+
+    .step .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--rutgers-red);
+      color: #fff;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .tool-button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tool-button-row button,
+    .scenario-controls button {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 6px;
+      padding: 9px 12px;
+      min-height: 40px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tool-button-row button[aria-selected="true"],
+    .scenario-controls button[aria-selected="true"] {
+      background: var(--rutgers-red);
+      border-color: var(--rutgers-red);
+      color: #fff;
+    }
+
+    .bar-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: #e8edf3;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+      width: var(--value);
+    }
+
+    .scenario-box {
+      border-left: 4px solid var(--gold);
+    }
+
+    .reflection {
+      width: 100%;
+      min-height: 112px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.95rem;
+      resize: vertical;
+    }
+
+    .compact-list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .compact-list li {
+      margin: 5px 0;
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 5px 8px;
+      background: #f1e4e7;
+      color: #8c1530;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 1080px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+        height: auto;
+      }
+
+      nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .overview-grid,
+      .activity-grid,
+      .rubric-grid,
+      .pathway,
+      .module-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .content,
+      .topbar {
+        padding: 18px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .meta {
+        text-align: left;
+      }
+
+      nav,
+      .overview-grid,
+      .activity-grid,
+      .rubric-grid,
+      .pathway,
+      .module-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <strong>Undergraduate AI Literacy</strong>
+        <span>Rutgers learning experience</span>
+      </div>
+      <nav aria-label="Curriculum sections">
+        <button type="button" aria-selected="true" data-section="overview">Overview</button>
+        <button type="button" aria-selected="false" data-section="modules">Modules</button>
+        <button type="button" aria-selected="false" data-section="tools">Google Tools</button>
+        <button type="button" aria-selected="false" data-section="scenarios">Scenarios</button>
+        <button type="button" aria-selected="false" data-section="libraries">Library Studio</button>
+        <button type="button" aria-selected="false" data-section="assessment">Assessment</button>
+      </nav>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <h1>AI Literacy Notebook For Rutgers Undergraduates</h1>
+          <div class="meta">A five-module interactive curriculum grounded in Rutgers AI guidance, SAS Core goals, Google AI tools, and library standards</div>
+        </div>
+        <div class="meta">Format: self-paced module, class activity, workshop, or first-year seminar</div>
+      </header>
+
+      <div class="content">
+        <section class="panel" data-panel="overview">
+          <h2>Learning Architecture</h2>
+          <p>Students learn AI by practicing judgment: choosing tools, grounding claims in sources, protecting data, documenting AI assistance, and reflecting on learning.</p>
+          <div class="overview-grid">
+            <article class="card metric">
+              <span class="badge">Pathway</span>
+              <strong>5</strong>
+              <p>Foundational modules that can be used as a mini-course or embedded across Core courses.</p>
+            </article>
+            <article class="card metric" style="border-top-color: var(--blue)">
+              <span class="badge">Practice</span>
+              <strong>8</strong>
+              <p>Major-based examples for writing, science, history, policy, data, media, and research.</p>
+            </article>
+            <article class="card metric" style="border-top-color: var(--green)">
+              <span class="badge">Tools</span>
+              <strong>4</strong>
+              <p>Gemini, NotebookLM, practice tests, and Classroom workflows treated as learning supports.</p>
+            </article>
+            <article class="card metric" style="border-top-color: var(--gold)">
+              <span class="badge">Library</span>
+              <strong>1</strong>
+              <p>Library studio for source evaluation, copyright, fair use, citation, and research integrity.</p>
+            </article>
+          </div>
+          <div class="pathway" aria-label="Curriculum pathway">
+            <article class="card step"><div class="num">1</div><h3>Understand AI</h3><p>Capabilities, limits, bias, hallucinations, and human accountability.</p></article>
+            <article class="card step"><div class="num">2</div><h3>Choose Tools</h3><p>Approved accounts, course rules, data boundaries, and accessibility.</p></article>
+            <article class="card step"><div class="num">3</div><h3>Ground Sources</h3><p>Library databases, course readings, NotebookLM source sets, and evidence trails.</p></article>
+            <article class="card step"><div class="num">4</div><h3>Create And Verify</h3><p>Use AI for drafts, study, synthesis, and practice while checking the result.</p></article>
+            <article class="card step"><div class="num">5</div><h3>Disclose Learning</h3><p>Document prompts, sources, changes, copyright reasoning, and reflection.</p></article>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-panel="modules">
+          <h2>Five Undergraduate Modules</h2>
+          <p>Each module includes a short concept lesson, guided practice, a library checkpoint, and a reflection artifact.</p>
+          <div class="module-grid">
+            <article class="card">
+              <h3 id="module-title">Module 1: AI Foundations And Limits</h3>
+              <p id="module-description">Students explain what generative AI can do, where it fails, and why human review remains required.</p>
+              <ul class="compact-list" id="module-outcomes"></ul>
+            </article>
+            <article class="card">
+              <h3>Module Progression</h3>
+              <div class="bar-list" id="module-bars"></div>
+            </article>
+          </div>
+          <div class="tool-button-row" aria-label="Choose module">
+            <button type="button" aria-selected="true" data-module="0">Foundations</button>
+            <button type="button" aria-selected="false" data-module="1">Tools</button>
+            <button type="button" aria-selected="false" data-module="2">Sources</button>
+            <button type="button" aria-selected="false" data-module="3">Create</button>
+            <button type="button" aria-selected="false" data-module="4">Disclose</button>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-panel="tools">
+          <h2>Google AI As A Foundational Tool Layer</h2>
+          <p>The tools are framed as study and inquiry supports, not shortcuts around learning.</p>
+          <div class="tool-button-row" aria-label="Choose Google tool">
+            <button type="button" aria-selected="true" data-tool="gemini">Gemini</button>
+            <button type="button" aria-selected="false" data-tool="notebooklm">NotebookLM</button>
+            <button type="button" aria-selected="false" data-tool="practice">Practice Tests</button>
+            <button type="button" aria-selected="false" data-tool="classroom">Classroom</button>
+          </div>
+          <div class="module-grid">
+            <article class="card">
+              <h3 id="tool-title">Gemini Guided Learning</h3>
+              <p id="tool-summary">Use Gemini as a study coach for explanation, practice, and reflection.</p>
+              <div class="pill-grid" id="tool-pills"></div>
+              <h3>Library Guardrail</h3>
+              <p id="tool-library">Compare AI explanations with library-vetted sources and document verification steps.</p>
+            </article>
+            <article class="card">
+              <h3>Curriculum Fit</h3>
+              <div class="bar-list" id="tool-bars"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-panel="scenarios">
+          <h2>Scenario Lab</h2>
+          <p>Use these as in-class activities, discussion prompts, or reflection checkpoints.</p>
+          <div class="scenario-controls tool-button-row" aria-label="Choose scenario">
+            <button type="button" aria-selected="true" data-scenario="writing">Writing</button>
+            <button type="button" aria-selected="false" data-scenario="biology">Biology</button>
+            <button type="button" aria-selected="false" data-scenario="history">History</button>
+            <button type="button" aria-selected="false" data-scenario="data">Data Science</button>
+            <button type="button" aria-selected="false" data-scenario="policy">Public Policy</button>
+          </div>
+          <div class="module-grid">
+            <article class="card scenario-box">
+              <h3 id="scenario-title">First-Year Writing</h3>
+              <p id="scenario-body">A student asks Gemini to create an outline, then must revise it using library sources and cite the sources that changed the argument.</p>
+              <ul class="compact-list" id="scenario-checks"></ul>
+            </article>
+            <article class="card">
+              <h3>Reflection Notebook</h3>
+              <p>Write what the student should disclose and verify before submitting.</p>
+              <textarea class="reflection" aria-label="Reflection response" placeholder="Example: I used AI for brainstorming, verified claims with library sources, revised unsupported sections, and cited the sources that shaped my final argument."></textarea>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-panel="libraries">
+          <h2>Library Studio</h2>
+          <p>The library component turns AI literacy into durable information practices.</p>
+          <div class="activity-grid">
+            <article class="card"><h3>Source Set Builder</h3><p>Students construct a NotebookLM source set from course readings, library databases, and instructor-approved materials.</p></article>
+            <article class="card"><h3>Copyright Check</h3><p>Students decide whether a reading, dataset, image, or media clip can be uploaded or reused with AI.</p></article>
+            <article class="card"><h3>Citation Audit</h3><p>Students identify fabricated citations, weak sources, missing evidence, and unsupported summaries.</p></article>
+            <article class="card"><h3>Disclosure Note</h3><p>Students document AI assistance, prompt choices, source verification, and what changed after review.</p></article>
+          </div>
+        </section>
+
+        <section class="panel hidden" data-panel="assessment">
+          <h2>Assessment Rubric</h2>
+          <p>Assess the student's judgment and process, not just the final product.</p>
+          <div class="rubric-grid">
+            <article class="card"><h3>AI Literacy</h3><p>Explains tool purpose, limits, likely errors, and why human review matters.</p></article>
+            <article class="card"><h3>Source Quality</h3><p>Uses credible sources, identifies gaps, and verifies AI claims against evidence.</p></article>
+            <article class="card"><h3>Ethics And Data</h3><p>Protects sensitive data, respects course rules, and considers bias and accessibility.</p></article>
+            <article class="card"><h3>Transparency</h3><p>Discloses AI assistance, cites sources, and reflects on learning decisions.</p></article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const sectionButtons = document.querySelectorAll("[data-section]");
+    const panels = document.querySelectorAll("[data-panel]");
+    sectionButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const section = button.dataset.section;
+        sectionButtons.forEach(item => item.setAttribute("aria-selected", String(item === button)));
+        panels.forEach(panel => panel.classList.toggle("hidden", panel.dataset.panel !== section));
+      });
+    });
+
+    const modules = [
+      {
+        title: "Module 1: AI Foundations And Limits",
+        description: "Students explain what generative AI can do, where it fails, and why human review remains required.",
+        outcomes: ["Define generative AI in plain language.", "Identify hallucinations, bias, and missing context.", "Explain why AI output is not evidence by itself."],
+        bars: { "Concepts": 90, "Practice": 55, "Library": 50, "Assessment": 60 }
+      },
+      {
+        title: "Module 2: Tool Choice And Rutgers Rules",
+        description: "Students choose appropriate AI tools based on approval status, course policy, privacy, accessibility, and data classification.",
+        outcomes: ["Distinguish approved and unsupported tool contexts.", "Apply course-specific AI rules.", "Identify data that should not enter AI systems."],
+        bars: { "Concepts": 78, "Practice": 72, "Library": 64, "Assessment": 70 }
+      },
+      {
+        title: "Module 3: Source-Grounded Research",
+        description: "Students build evidence trails using library sources, course readings, NotebookLM source sets, and citation checks.",
+        outcomes: ["Build a source set responsibly.", "Detect fabricated or weak citations.", "Verify summaries against primary sources."],
+        bars: { "Concepts": 82, "Practice": 88, "Library": 95, "Assessment": 84 }
+      },
+      {
+        title: "Module 4: AI-Supported Creation",
+        description: "Students use AI for brainstorming, study, drafting, coding support, and practice while preserving authorship and learning.",
+        outcomes: ["Use AI as a collaborator, not a substitute.", "Revise based on evidence and course goals.", "Test or critique AI-generated work."],
+        bars: { "Concepts": 75, "Practice": 92, "Library": 72, "Assessment": 86 }
+      },
+      {
+        title: "Module 5: Disclosure, Copyright, And Reflection",
+        description: "Students document AI assistance, cite sources, reason about fair use, and submit a learning reflection.",
+        outcomes: ["Write an AI use disclosure note.", "Explain copyright and fair use considerations.", "Reflect on what the student learned and verified."],
+        bars: { "Concepts": 86, "Practice": 80, "Library": 92, "Assessment": 94 }
+      }
+    ];
+
+    const moduleButtons = document.querySelectorAll("[data-module]");
+    const moduleTitle = document.getElementById("module-title");
+    const moduleDescription = document.getElementById("module-description");
+    const moduleOutcomes = document.getElementById("module-outcomes");
+    const moduleBars = document.getElementById("module-bars");
+
+    function renderBars(target, values) {
+      target.innerHTML = Object.entries(values).map(([label, value]) => `
+        <div class="bar-row">
+          <div class="bar-label"><span>${label}</span><span>${value}%</span></div>
+          <div class="bar"><span style="--value: ${value}%"></span></div>
+        </div>
+      `).join("");
+    }
+
+    function renderModule(index) {
+      const data = modules[index];
+      moduleTitle.textContent = data.title;
+      moduleDescription.textContent = data.description;
+      moduleOutcomes.innerHTML = data.outcomes.map(item => `<li>${item}</li>`).join("");
+      renderBars(moduleBars, data.bars);
+      moduleButtons.forEach(button => button.setAttribute("aria-selected", String(Number(button.dataset.module) === index)));
+    }
+
+    moduleButtons.forEach(button => {
+      button.addEventListener("click", () => renderModule(Number(button.dataset.module)));
+    });
+    renderModule(0);
+
+    const tools = {
+      gemini: {
+        title: "Gemini Guided Learning",
+        summary: "Use Gemini as a study coach for explanation, practice, and reflection.",
+        library: "Compare AI explanations with library-vetted sources and document verification steps.",
+        pills: ["Study coach", "Reflection", "Concept review"],
+        bars: { "AI literacy": 90, "Pedagogy": 82, "Library fit": 76, "Assessment": 70 }
+      },
+      notebooklm: {
+        title: "NotebookLM Source-Grounded Research",
+        summary: "Use NotebookLM with approved course readings and library research packets.",
+        library: "Teach source-set construction, licensed-content boundaries, and citation checks.",
+        pills: ["Source grounding", "Research notes", "Citation checks"],
+        bars: { "AI literacy": 88, "Pedagogy": 86, "Library fit": 94, "Assessment": 84 }
+      },
+      practice: {
+        title: "AI-Generated Practice Tests",
+        summary: "Use practice tests for low-stakes retrieval practice and feedback.",
+        library: "Tie practice items to course-approved sources and require reflection on wrong answers.",
+        pills: ["Retrieval practice", "Feedback", "Self-assessment"],
+        bars: { "AI literacy": 74, "Pedagogy": 90, "Library fit": 68, "Assessment": 88 }
+      },
+      classroom: {
+        title: "Gemini In Classroom",
+        summary: "Use instructor-guided assignments and course-material grounded workflows.",
+        library: "Add research requirements, citation expectations, copyright notes, and source rubrics.",
+        pills: ["Instructor control", "Assignments", "Learning insights"],
+        bars: { "AI literacy": 80, "Pedagogy": 92, "Library fit": 82, "Assessment": 86 }
+      }
+    };
+
+    const toolButtons = document.querySelectorAll("[data-tool]");
+    const toolTitle = document.getElementById("tool-title");
+    const toolSummary = document.getElementById("tool-summary");
+    const toolLibrary = document.getElementById("tool-library");
+    const toolPills = document.getElementById("tool-pills");
+    const toolBars = document.getElementById("tool-bars");
+
+    function renderTool(key) {
+      const data = tools[key];
+      toolTitle.textContent = data.title;
+      toolSummary.textContent = data.summary;
+      toolLibrary.textContent = data.library;
+      toolPills.innerHTML = data.pills.map(item => `<span class="pill">${item}</span>`).join("");
+      renderBars(toolBars, data.bars);
+      toolButtons.forEach(button => button.setAttribute("aria-selected", String(button.dataset.tool === key)));
+    }
+
+    toolButtons.forEach(button => button.addEventListener("click", () => renderTool(button.dataset.tool)));
+    renderTool("gemini");
+
+    const scenarios = {
+      writing: {
+        title: "First-Year Writing",
+        body: "A student asks Gemini to create an outline, then revises it using library sources and cites the sources that changed the argument.",
+        checks: ["What was AI used for?", "Which sources verified the claims?", "What changed after review?", "What disclosure belongs in the submission?"]
+      },
+      biology: {
+        title: "Biological Sciences",
+        body: "A student uses NotebookLM to study instructor-approved articles, then verifies a summary against primary literature.",
+        checks: ["Were all sources approved?", "Did the student check claims in the original articles?", "Were uncertainty and limitations preserved?"]
+      },
+      history: {
+        title: "History",
+        body: "A student builds a source-grounded notebook and identifies what an AI summary omits from primary sources.",
+        checks: ["Which voices are missing?", "What evidence changes the narrative?", "How are primary sources cited?"]
+      },
+      data: {
+        title: "Data Science",
+        body: "A student uses Gemini to explain code concepts, then tests the result independently and documents errors.",
+        checks: ["Did the student run independent tests?", "Were edge cases checked?", "Which AI suggestions were rejected?"]
+      },
+      policy: {
+        title: "Public Policy",
+        body: "A student compares AI-generated policy options with scholarly and government sources before making a recommendation.",
+        checks: ["What evidence supports each option?", "Were bias and affected communities considered?", "What sources were authoritative?"]
+      }
+    };
+
+    const scenarioButtons = document.querySelectorAll("[data-scenario]");
+    const scenarioTitle = document.getElementById("scenario-title");
+    const scenarioBody = document.getElementById("scenario-body");
+    const scenarioChecks = document.getElementById("scenario-checks");
+
+    function renderScenario(key) {
+      const data = scenarios[key];
+      scenarioTitle.textContent = data.title;
+      scenarioBody.textContent = data.body;
+      scenarioChecks.innerHTML = data.checks.map(item => `<li>${item}</li>`).join("");
+      scenarioButtons.forEach(button => button.setAttribute("aria-selected", String(button.dataset.scenario === key)));
+    }
+
+    scenarioButtons.forEach(button => button.addEventListener("click", () => renderScenario(button.dataset.scenario)));
+    renderScenario("writing");
+  </script>
+</body>
+</html>

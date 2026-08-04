@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rutgers AI Literacy Interactive Podcast</title>
+  <style>
+    :root {
+      --rutgers-red: #cc0033;
+      --ink: #17191d;
+      --muted: #5c6570;
+      --line: #d8dee6;
+      --paper: #ffffff;
+      --soft: #f4f6f9;
+      --blue: #245c7a;
+      --green: #2d7a44;
+      --gold: #9d6b15;
+      --shadow: 0 8px 26px rgba(20, 28, 38, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--soft);
+      line-height: 1.45;
+    }
+
+    header {
+      background: #1b1d21;
+      color: #fff;
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    header p {
+      color: #d6dbe4;
+      margin-bottom: 0;
+    }
+
+    main {
+      padding: 28px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .podcast-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.75fr) minmax(0, 1.25fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .episode-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: #fbfcfe;
+      color: var(--ink);
+      border-radius: 6px;
+      padding: 10px 12px;
+      min-height: 42px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    button[aria-selected="true"] {
+      background: var(--rutgers-red);
+      border-color: var(--rutgers-red);
+      color: #fff;
+    }
+
+    .player {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfcfe;
+      display: grid;
+      gap: 12px;
+    }
+
+    .track {
+      height: 12px;
+      border-radius: 999px;
+      background: #e7ecf2;
+      overflow: hidden;
+    }
+
+    .track span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+      width: var(--progress);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #303943;
+      background: #fff;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 14px;
+      border-left: 4px solid var(--blue);
+    }
+
+    .script {
+      white-space: pre-wrap;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      resize: vertical;
+    }
+
+    @media (max-width: 900px) {
+      .podcast-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Interactive Podcast: AI Literacy At Rutgers</h1>
+      <p>A discussion companion for undergraduate AI literacy modules, library practice, and Google AI tools.</p>
+    </div>
+    <p>Use in class, advising, workshops, or asynchronous reflection.</p>
+  </header>
+
+  <main>
+    <div class="podcast-grid">
+      <section class="panel">
+        <h2>Episode Segments</h2>
+        <div class="episode-list" aria-label="Podcast episode segments">
+          <button type="button" aria-selected="true" data-episode="0">1. AI is a learning partner</button>
+          <button type="button" aria-selected="false" data-episode="1">2. Sources make AI useful</button>
+          <button type="button" aria-selected="false" data-episode="2">3. Google tools in practice</button>
+          <button type="button" aria-selected="false" data-episode="3">4. Copyright and fair use</button>
+          <button type="button" aria-selected="false" data-episode="4">5. What to disclose</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="player">
+          <h2 id="episode-title">AI is a learning partner</h2>
+          <p id="episode-summary">Students learn to use AI for explanation and reflection while preserving their own judgment.</p>
+          <div class="track" aria-label="Episode progress"><span id="episode-progress" style="--progress: 20%"></span></div>
+          <div class="tag-row" id="episode-tags"></div>
+        </div>
+
+        <div class="two-col">
+          <article class="card">
+            <h3>Host Script</h3>
+            <p class="script" id="episode-script"></p>
+          </article>
+          <article class="card" style="border-left-color: var(--gold)">
+            <h3>Discussion Prompt</h3>
+            <p id="episode-prompt"></p>
+            <textarea aria-label="Podcast reflection" placeholder="Write a response or discussion note..."></textarea>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const episodes = [
+      {
+        title: "AI is a learning partner",
+        summary: "Students learn to use AI for explanation and reflection while preserving their own judgment.",
+        progress: 20,
+        tags: ["AI foundations", "Reflection", "Human review"],
+        script: "Host: AI can explain a concept, draft a study plan, or generate practice questions.\\nLibrary voice: But the output is not evidence. Students still need sources, citations, and judgment.\\nStudent voice: So I can use AI to learn, but I have to show what I checked and what I changed.",
+        prompt: "Where is the line between using AI to learn and using AI to replace learning?"
+      },
+      {
+        title: "Sources make AI useful",
+        summary: "NotebookLM and library research practices show why source grounding matters.",
+        progress: 40,
+        tags: ["NotebookLM", "Source grounding", "Citation checks"],
+        script: "Host: A source-grounded notebook is only as strong as the sources students add.\\nLibrary voice: Start with library databases, course readings, and instructor-approved materials.\\nStudent voice: If the AI summary sounds confident, I still need to open the source and verify it.",
+        prompt: "What makes a source set trustworthy enough for AI-supported study?"
+      },
+      {
+        title: "Google tools in practice",
+        summary: "Gemini, NotebookLM, practice tests, and Classroom become useful when attached to learning goals.",
+        progress: 60,
+        tags: ["Gemini", "Practice tests", "Classroom"],
+        script: "Host: Gemini can help explain. NotebookLM can organize sources. Practice tests can reveal gaps.\\nFaculty voice: I need to design the assignment so the tool supports my learning outcome.\\nLibrary voice: And the assignment should require source verification and AI disclosure.",
+        prompt: "Which Google tool fits a course you know, and what guardrail would you add?"
+      },
+      {
+        title: "Copyright and fair use",
+        summary: "Students need practical rules for licensed content, media, datasets, and public sharing.",
+        progress: 80,
+        tags: ["Copyright", "Fair use", "Licensing"],
+        script: "Host: Not every source can be uploaded, transformed, or shared through an AI tool.\\nLibrary voice: Fair use depends on purpose, source type, amount, and market effect. Licensed content can have extra rules.\\nStudent voice: Before I upload, I should ask whether I have permission and whether the course requires a safer alternative.",
+        prompt: "What should a student check before uploading an article, image, or dataset into an AI tool?"
+      },
+      {
+        title: "What to disclose",
+        summary: "Transparent AI use helps faculty assess process, judgment, and learning.",
+        progress: 100,
+        tags: ["Disclosure", "Academic integrity", "Assessment"],
+        script: "Host: Disclosure is not a confession. It is evidence of process.\\nFaculty voice: I want to know what the student asked AI to do, what sources they checked, and what changed afterward.\\nStudent voice: My final note should explain the AI help, the verification steps, and what I learned.",
+        prompt: "Draft a three-sentence AI disclosure note for a research assignment."
+      }
+    ];
+
+    const buttons = document.querySelectorAll("[data-episode]");
+    const title = document.getElementById("episode-title");
+    const summary = document.getElementById("episode-summary");
+    const progress = document.getElementById("episode-progress");
+    const tags = document.getElementById("episode-tags");
+    const script = document.getElementById("episode-script");
+    const prompt = document.getElementById("episode-prompt");
+
+    function renderEpisode(index) {
+      const data = episodes[index];
+      title.textContent = data.title;
+      summary.textContent = data.summary;
+      progress.style.setProperty("--progress", `${data.progress}%`);
+      tags.innerHTML = data.tags.map(tag => `<span class="tag">${tag}</span>`).join("");
+      script.textContent = data.script;
+      prompt.textContent = data.prompt;
+      buttons.forEach(button => button.setAttribute("aria-selected", String(Number(button.dataset.episode) === index)));
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => renderEpisode(Number(button.dataset.episode)));
+    });
+
+    renderEpisode(0);
+  </script>
+</body>
+</html>

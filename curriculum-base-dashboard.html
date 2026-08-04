@@ -1,0 +1,2174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rutgers Campuswide AI Curriculum Dashboard</title>
+  <style>
+    :root {
+      --rutgers-red: #cc0033;
+      --ink: #15171a;
+      --muted: #5b6470;
+      --line: #d9dee5;
+      --paper: #ffffff;
+      --soft: #f5f7fa;
+      --blue: #245c7a;
+      --teal: #24756b;
+      --gold: #9d6b15;
+      --violet: #6b4e8d;
+      --green: #2d7a44;
+      --orange: #b85718;
+      --shadow: 0 8px 26px rgba(20, 28, 38, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--soft);
+      line-height: 1.45;
+    }
+
+    a {
+      color: var(--rutgers-red);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      background: #1b1d21;
+      color: #fff;
+      padding: 24px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .brand {
+      border-left: 6px solid var(--rutgers-red);
+      padding-left: 12px;
+      margin-bottom: 28px;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1.05rem;
+      letter-spacing: 0;
+    }
+
+    .brand span {
+      display: block;
+      color: #c7ced8;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    nav a {
+      color: #e9edf3;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.08);
+      text-decoration: none;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    .topbar {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 4;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+
+    .topbar .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    .content {
+      padding: 28px;
+      display: grid;
+      gap: 28px;
+    }
+
+    section {
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .section-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      max-width: 850px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .kpis {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .kpi {
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .kpi .label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .kpi .number {
+      font-size: 2.3rem;
+      font-weight: 800;
+      margin: 8px 0 2px;
+    }
+
+    .kpi .note {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .accent-red {
+      border-top: 4px solid var(--rutgers-red);
+    }
+
+    .accent-blue {
+      border-top: 4px solid var(--blue);
+    }
+
+    .accent-teal {
+      border-top: 4px solid var(--teal);
+    }
+
+    .accent-gold {
+      border-top: 4px solid var(--gold);
+    }
+
+    .architecture {
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      align-items: stretch;
+    }
+
+    .baseline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .baseline-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .badge-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--rutgers-red);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .baseline-row h3 {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .baseline-row p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .coverage-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .bar-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: #e7ebf0;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+    }
+
+    .bar span.partial {
+      background: var(--gold);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 6px;
+      padding: 9px 12px;
+      font-weight: 800;
+      cursor: pointer;
+      min-height: 40px;
+    }
+
+    button[aria-selected="true"] {
+      border-color: var(--rutgers-red);
+      background: var(--rutgers-red);
+      color: #fff;
+    }
+
+    .pathway-panel {
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.7fr);
+      gap: 14px;
+    }
+
+    .module-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .module {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfe;
+      min-height: 126px;
+    }
+
+    .module strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .module ul,
+    .compact-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .module li,
+    .compact-list li {
+      margin: 4px 0;
+    }
+
+    .library-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.55fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .library-roadmap {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .roadmap-visual {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      position: relative;
+    }
+
+    .roadmap-visual::before {
+      content: "";
+      position: absolute;
+      left: 9%;
+      right: 9%;
+      top: 34px;
+      height: 4px;
+      background: var(--line);
+      z-index: 0;
+    }
+
+    .library-step {
+      position: relative;
+      z-index: 1;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 14px;
+      min-height: 190px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .step-marker {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--rutgers-red);
+      color: #fff;
+      font-weight: 800;
+      border: 4px solid #fff;
+      box-shadow: 0 0 0 1px var(--line);
+    }
+
+    .library-step h3 {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .library-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .standards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .standard-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfe;
+      border-top: 4px solid var(--teal);
+    }
+
+    .standard-card h3 {
+      margin: 0 0 6px;
+      font-size: 0.98rem;
+    }
+
+    .standard-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hub-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .teaching-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(340px, 0.75fr);
+      align-items: stretch;
+    }
+
+    .milestone-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .milestone {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px;
+      background: #fbfcfe;
+    }
+
+    .milestone h3 {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .milestone p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .intersection-map {
+      display: grid;
+      gap: 10px;
+    }
+
+    .intersection-row {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfe;
+      border-left: 4px solid var(--blue);
+    }
+
+    .intersection-row strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.93rem;
+    }
+
+    .intersection-row span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .core-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .core-card {
+      border-top: 4px solid var(--blue);
+      min-height: 214px;
+    }
+
+    .core-card h3 {
+      margin: 0 0 7px;
+      font-size: 1rem;
+    }
+
+    .core-card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.91rem;
+    }
+
+    .major-visual {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .major-map {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .major-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 14px;
+      border-left: 4px solid var(--rutgers-red);
+      min-height: 184px;
+    }
+
+    .major-card h3 {
+      margin: 0 0 8px;
+      font-size: 0.98rem;
+    }
+
+    .major-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .core-roadmap {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .core-roadmap .phase {
+      border-top-color: var(--teal);
+      min-height: 148px;
+    }
+
+    .lab-grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      align-items: stretch;
+    }
+
+    .lab-hero {
+      background: #1b1d21;
+      color: #fff;
+      border-color: #1b1d21;
+      display: grid;
+      align-content: space-between;
+      gap: 20px;
+    }
+
+    .lab-hero h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      line-height: 1.2;
+    }
+
+    .lab-hero p {
+      margin: 0;
+      color: #d9dee5;
+    }
+
+    .lab-credit {
+      border-top: 1px solid rgba(255,255,255,0.22);
+      padding-top: 12px;
+      font-size: 0.86rem;
+      color: #d9dee5;
+    }
+
+    .lab-credit a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .deliverable-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .deliverable-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 14px;
+      min-height: 160px;
+      border-top: 4px solid var(--rutgers-red);
+    }
+
+    .deliverable-card h3 {
+      margin: 0 0 7px;
+      font-size: 0.98rem;
+    }
+
+    .deliverable-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .lab-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .google-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .google-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 14px;
+      min-height: 190px;
+      border-top: 4px solid var(--green);
+    }
+
+    .google-card h3 {
+      margin: 0 0 8px;
+      font-size: 0.98rem;
+    }
+
+    .google-card p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .foundation-flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .google-interactive {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .google-tool-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .tool-summary {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .tool-summary h3,
+    .examples-panel h3,
+    .visual-panel h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .tool-summary p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .visual-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+      background: #fbfcfe;
+    }
+
+    .chart-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .chart-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .mini-bar {
+      height: 13px;
+      border-radius: 999px;
+      background: #e7ebf0;
+      overflow: hidden;
+    }
+
+    .mini-bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+      width: var(--value);
+    }
+
+    .examples-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .example-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 14px;
+      min-height: 160px;
+      border-left: 4px solid var(--gold);
+    }
+
+    .example-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 0.95rem;
+    }
+
+    .example-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .flow-step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: var(--paper);
+      min-height: 142px;
+    }
+
+    .flow-step h3 {
+      margin: 8px 0 6px;
+      font-size: 0.98rem;
+    }
+
+    .flow-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hub-card {
+      border-left: 4px solid var(--violet);
+      min-height: 190px;
+    }
+
+    .hub-card h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .hub-card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .hub-card .pill-grid {
+      margin-top: auto;
+    }
+
+    .source-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: #fbfcfe;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #303943;
+    }
+
+    .risk-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .risk {
+      border-left: 4px solid var(--orange);
+    }
+
+    .risk h3,
+    .phase h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+
+    .risk p,
+    .phase p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .roadmap {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .phase {
+      border-top: 4px solid var(--blue);
+      min-height: 164px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 0.94rem;
+    }
+
+    th {
+      background: #eef2f6;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      color: #3a4652;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .status {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status.ready {
+      color: #15572b;
+      background: #daf0df;
+    }
+
+    .status.build {
+      color: #6b430a;
+      background: #f5e5c7;
+    }
+
+    .status.watch {
+      color: #803814;
+      background: #f8dfd0;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 0 28px 28px;
+    }
+
+    @media (max-width: 1080px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+        height: auto;
+      }
+
+      nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .kpis,
+      .architecture,
+      .pathway-panel,
+      .teaching-grid,
+      .core-grid,
+      .major-map,
+      .core-roadmap,
+      .lab-grid,
+      .deliverable-grid,
+      .lab-flow,
+      .google-grid,
+      .foundation-flow,
+      .google-tool-panel,
+      .example-grid,
+      .hub-grid,
+      .library-band,
+      .roadmap-visual,
+      .standards-grid,
+      .risk-grid,
+      .roadmap {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .roadmap-visual::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .content,
+      .topbar {
+        padding: 18px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .topbar .meta {
+        text-align: left;
+      }
+
+      nav,
+      .kpis,
+      .architecture,
+      .pathway-panel,
+      .module-grid,
+      .teaching-grid,
+      .core-grid,
+      .major-map,
+      .core-roadmap,
+      .lab-grid,
+      .deliverable-grid,
+      .lab-flow,
+      .google-grid,
+      .foundation-flow,
+      .google-tool-panel,
+      .example-grid,
+      .hub-grid,
+      .library-band,
+      .roadmap-visual,
+      .standards-grid,
+      .risk-grid,
+      .roadmap {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <strong>Rutgers AI Curriculum</strong>
+        <span>Campuswide dashboard</span>
+      </div>
+      <nav aria-label="Dashboard sections">
+        <a href="#overview">Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#pathways">Pathways</a>
+        <a href="#teaching-genai">Teaching GenAI</a>
+        <a href="#sas-core-ai">SAS Core AI</a>
+        <a href="#google-ai-foundations">Google AI</a>
+        <a href="#nj-ai-hub">NJ AI Hub</a>
+        <a href="#libraries">Libraries</a>
+        <a href="#library-roadmap">Library Roadmap</a>
+        <a href="#rutgers-ai-lab">Libraries AI Lab</a>
+        <a href="#risk">Risk Controls</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#metrics">Metrics</a>
+      </nav>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <h1>Rutgers Campuswide AI Curriculum Dashboard</h1>
+          <div class="meta">Standard curriculum model from RUN enablement materials, Rutgers AI guidance, and NJ AI Hub resources</div>
+        </div>
+        <div class="meta">Reviewed: June 18, 2026<br>Scope: students, faculty, staff, leadership, libraries</div>
+      </header>
+
+      <div class="content">
+        <section id="overview">
+          <div class="section-head">
+            <div>
+              <h2>Executive View</h2>
+              <p>A universitywide AI curriculum should combine one shared AI Essentials baseline with audience-specific pathways, library co-ownership, and clear Rutgers policy alignment.</p>
+            </div>
+          </div>
+
+          <div class="grid kpis">
+            <article class="card kpi accent-red">
+              <div>
+                <div class="label">Audience Pathways</div>
+                <div class="number">4</div>
+              </div>
+              <div class="note">Students, faculty, staff, and leadership under one institutional strategy.</div>
+            </article>
+            <article class="card kpi accent-blue">
+              <div>
+                <div class="label">Shared Baseline</div>
+                <div class="number">7</div>
+              </div>
+              <div class="note">Core AI Essentials modules required before specialized practice, now aligned to teaching pathway milestones.</div>
+            </article>
+            <article class="card kpi accent-teal">
+              <div>
+                <div class="label">Student Credential</div>
+                <div class="number">4</div>
+              </div>
+              <div class="note">Learn, Lead, Apply, and Create badges leading to an AI Fluency Certificate.</div>
+            </article>
+            <article class="card kpi accent-gold">
+              <div>
+                <div class="label">Statewide Alignment</div>
+                <div class="number">5</div>
+              </div>
+              <div class="note">NJ AI Hub pillars connect Rutgers curriculum to workforce, R&D, innovation, ecosystem, and beneficial AI goals.</div>
+            </article>
+          </div>
+        </section>
+
+        <section id="architecture">
+          <div class="section-head">
+            <div>
+              <h2>Curriculum Architecture</h2>
+              <p>The shared baseline creates common expectations for responsible AI use; the pathways translate those expectations into academic, teaching, operational, and strategic practice.</p>
+            </div>
+          </div>
+
+          <div class="grid architecture">
+            <article class="card">
+              <h3>Rutgers AI Essentials Baseline</h3>
+              <div class="baseline">
+                <div class="baseline-row">
+                  <div class="badge-dot">1</div>
+                  <div><h3>AI foundations and limitations</h3><p>Common language for capabilities, limits, hallucinations, bias, and human accountability.</p></div>
+                </div>
+                <div class="baseline-row">
+                  <div class="badge-dot">2</div>
+                  <div><h3>Approved Rutgers tools</h3><p>Use protected Rutgers accounts for university work and avoid unsupported personal tools.</p></div>
+                </div>
+                <div class="baseline-row">
+                  <div class="badge-dot">3</div>
+                  <div><h3>Prompting and review</h3><p>Combine sources, audience, timeframe, and output format, then verify the result.</p></div>
+                </div>
+                <div class="baseline-row">
+                  <div class="badge-dot">4</div>
+                  <div><h3>Data privacy and classification</h3><p>Check FERPA, PHI, research data, proprietary data, library records, and critical data before use.</p></div>
+                </div>
+                <div class="baseline-row">
+                  <div class="badge-dot">5</div>
+                  <div><h3>Academic integrity and disclosure</h3><p>Course and instructor rules govern academic use; students should not assume AI is allowed.</p></div>
+                </div>
+                <div class="baseline-row">
+                  <div class="badge-dot">6</div>
+                  <div><h3>Copyright and fair use</h3><p>Review source rights, attribution, licensing limits, and AI-generated content risks.</p></div>
+                </div>
+                <div class="baseline-row">
+                  <div class="badge-dot">7</div>
+                  <div><h3>Accessibility and inclusion</h3><p>Design AI use around equitable access, accessibility review, and bias awareness.</p></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Coverage Readiness</h3>
+              <div class="coverage-list" aria-label="Coverage readiness bars">
+                <div class="bar-row">
+                  <div class="bar-label"><span>AI literacy</span><span>Strong</span></div>
+                  <div class="bar"><span style="width: 94%"></span></div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label"><span>Ethics and responsible use</span><span>Strong</span></div>
+                  <div class="bar"><span style="width: 88%"></span></div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label"><span>Pedagogy and assessment</span><span>Strong</span></div>
+                  <div class="bar"><span style="width: 84%"></span></div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label"><span>Staff productivity</span><span>Strong</span></div>
+                  <div class="bar"><span style="width: 90%"></span></div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label"><span>Libraries integration</span><span>Build</span></div>
+                  <div class="bar"><span class="partial" style="width: 68%"></span></div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label"><span>Copyright and fair use</span><span>Build</span></div>
+                  <div class="bar"><span class="partial" style="width: 64%"></span></div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-label"><span>Metrics and governance</span><span>Build</span></div>
+                  <div class="bar"><span class="partial" style="width: 72%"></span></div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="pathways">
+          <div class="section-head">
+            <div>
+              <h2>Audience Pathways</h2>
+              <p>Select an audience to view the recommended pathway, modules, credential artifact, and local owner.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="tabs" role="tablist" aria-label="Audience pathways">
+              <button type="button" role="tab" aria-selected="true" data-pathway="students">Students</button>
+              <button type="button" role="tab" aria-selected="false" data-pathway="faculty">Faculty</button>
+              <button type="button" role="tab" aria-selected="false" data-pathway="staff">Staff</button>
+              <button type="button" role="tab" aria-selected="false" data-pathway="leadership">Leadership</button>
+            </div>
+
+            <div class="grid pathway-panel">
+              <div>
+                <h3 id="pathway-title">Student Pathway: AI Fluency Certificate</h3>
+                <p id="pathway-summary">A four-badge pathway that builds from AI foundations to responsible leadership, academic productivity, and creative innovation.</p>
+                <div class="grid module-grid" id="module-grid"></div>
+              </div>
+              <aside class="card" style="position: static; height: auto; overflow: visible; background: #fbfcfe; color: var(--ink); box-shadow: none;">
+                <h3>Credential Artifact</h3>
+                <p id="artifact-text">AI Fluency Showcase portfolio with prompt process, source list, output critique, privacy review, and learning reflection.</p>
+                <h3>Primary Owners</h3>
+                <ul class="compact-list" id="owner-list"></ul>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section id="teaching-genai">
+          <div class="section-head">
+            <div>
+              <h2>Teaching GenAI Pathway Integration</h2>
+              <p>Rutgers' teaching pathway gives the faculty curriculum a milestone model: learn the technologies, redesign assignments, assess student learning, and continue professional development through communities of practice.</p>
+            </div>
+          </div>
+
+          <div class="grid teaching-grid">
+            <article class="card">
+              <h3>Faculty Milestones Added To The Curriculum Base</h3>
+              <div class="milestone-list">
+                <div class="milestone">
+                  <div class="step-marker">1</div>
+                  <div>
+                    <h3>Foundational Knowledge</h3>
+                    <p>Understand GenAI tools, opportunities, limitations, and course-level guidance for student use.</p>
+                  </div>
+                </div>
+                <div class="milestone">
+                  <div class="step-marker">2</div>
+                  <div>
+                    <h3>Implementation</h3>
+                    <p>Design or redesign a major assignment so GenAI use supports, rather than displaces, learning outcomes.</p>
+                  </div>
+                </div>
+                <div class="milestone">
+                  <div class="step-marker">3</div>
+                  <div>
+                    <h3>Assessment Of Impact</h3>
+                    <p>Measure how the revised assignment affects student achievement, engagement, evidence use, and reflection.</p>
+                  </div>
+                </div>
+                <div class="milestone">
+                  <div class="step-marker">4</div>
+                  <div>
+                    <h3>Ongoing Learning</h3>
+                    <p>Continue through GenAI communities of practice, teaching explorations, Design Justice Labs, book groups, and documented reflection.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Where Libraries Intersect</h3>
+              <div class="intersection-map">
+                <div class="intersection-row">
+                  <strong>Course Guidelines</strong>
+                  <span>Libraries help faculty define allowed AI use, citation/disclosure expectations, source requirements, and licensed-content boundaries.</span>
+                </div>
+                <div class="intersection-row">
+                  <strong>Student GenAI Literacy</strong>
+                  <span>Library instruction covers tool limits, fabricated citations, evidence trails, scholarly search, bias, copyright, fair use, and ethical reuse.</span>
+                </div>
+                <div class="intersection-row">
+                  <strong>Assignment Redesign</strong>
+                  <span>Librarians co-design research assignments that require source evaluation, transparent AI workflow notes, and verification against library databases.</span>
+                </div>
+                <div class="intersection-row">
+                  <strong>Assessment Evidence</strong>
+                  <span>Libraries provide rubrics for citation quality, information evaluation, attribution, fair use reasoning, and documentation of AI assistance.</span>
+                </div>
+                <div class="intersection-row">
+                  <strong>Critical AI And Design Justice</strong>
+                  <span>Libraries connect inclusive pedagogy with access, privacy, community knowledge, licensing equity, and critical evaluation of AI systems.</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="sas-core-ai">
+          <div class="section-head">
+            <div>
+              <h2>SAS Core AI Alignment</h2>
+              <p>AI literacy and AI pedagogy can be mapped to the SAS goal-based Core Curriculum by treating GenAI as a cross-cutting way to practice inquiry, evidence, communication, quantitative reasoning, ethical judgment, and disciplinary methods.</p>
+            </div>
+          </div>
+
+          <div class="grid core-grid">
+            <article class="card core-card">
+              <h3>Contemporary Challenges</h3>
+              <p>Connect AI to diversity, social inequality, global issues, and the relationship between science, technology, and society.</p>
+              <div class="pill-grid">
+                <span class="pill">CCD</span>
+                <span class="pill">CCO</span>
+                <span class="pill">Bias audits</span>
+                <span class="pill">Social impact</span>
+              </div>
+            </article>
+            <article class="card core-card">
+              <h3>Natural Sciences</h3>
+              <p>Use AI to examine assumptions, methods, evidence, arguments, and theory in scientific analysis without replacing scientific reasoning.</p>
+              <div class="pill-grid">
+                <span class="pill">NS</span>
+                <span class="pill">Evidence checks</span>
+                <span class="pill">Method critique</span>
+              </div>
+            </article>
+            <article class="card core-card">
+              <h3>Social And Historical Analysis</h3>
+              <p>Apply historical and social-scientific reasoning to AI systems, datasets, labor effects, governance, power, and institutions.</p>
+              <div class="pill-grid">
+                <span class="pill">HST</span>
+                <span class="pill">SCL</span>
+                <span class="pill">Institutional analysis</span>
+              </div>
+            </article>
+            <article class="card core-card">
+              <h3>Arts And Humanities</h3>
+              <p>Critically examine AI and human experience, knowledge, value, creativity, language, cultural production, and interpretation.</p>
+              <div class="pill-grid">
+                <span class="pill">AH</span>
+                <span class="pill">Creativity</span>
+                <span class="pill">Human judgment</span>
+              </div>
+            </article>
+            <article class="card core-card">
+              <h3>Writing And Communication</h3>
+              <p>Require revision, attribution, source evaluation, citation, synthesis, and disclosure when AI supports drafting or research.</p>
+              <div class="pill-grid">
+                <span class="pill">WC</span>
+                <span class="pill">WCr</span>
+                <span class="pill">WCd</span>
+                <span class="pill">AI disclosure</span>
+              </div>
+            </article>
+            <article class="card core-card">
+              <h3>Quantitative And Formal Reasoning</h3>
+              <p>Use AI to support problem framing, data critique, model explanation, uncertainty, and communication of quantitative conclusions.</p>
+              <div class="pill-grid">
+                <span class="pill">QQ</span>
+                <span class="pill">QR</span>
+                <span class="pill">Model literacy</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="major-visual">
+            <h3>Major-Based Examples For AI Literacy And Pedagogy</h3>
+            <div class="major-map" aria-label="Major examples for AI literacy and pedagogy">
+              <article class="major-card">
+                <h3>Computer Science / Data Science</h3>
+                <p>Students compare a model-generated solution with their own code, document assumptions, test edge cases, and explain why the final method is valid.</p>
+                <div class="pill-grid"><span class="pill">QR</span><span class="pill">QQ</span><span class="pill">NS</span></div>
+              </article>
+              <article class="major-card">
+                <h3>Psychology / Cognitive Science</h3>
+                <p>Students evaluate GenAI claims about cognition using peer-reviewed evidence, research methods, and source-quality rubrics.</p>
+                <div class="pill-grid"><span class="pill">SCL</span><span class="pill">QQ</span><span class="pill">WCd</span></div>
+              </article>
+              <article class="major-card">
+                <h3>English / Comparative Literature</h3>
+                <p>Students analyze AI-generated interpretations against primary texts, citation norms, authorship questions, and cultural context.</p>
+                <div class="pill-grid"><span class="pill">AH</span><span class="pill">WCr</span><span class="pill">WCd</span></div>
+              </article>
+              <article class="major-card">
+                <h3>Political Science / Public Policy</h3>
+                <p>Students map AI governance choices, public-sector risks, data bias, and policy tradeoffs using social-scientific reasoning.</p>
+                <div class="pill-grid"><span class="pill">SCL</span><span class="pill">CCO</span><span class="pill">QQ</span></div>
+              </article>
+              <article class="major-card">
+                <h3>Biological Sciences / Public Health</h3>
+                <p>Students test AI biomedical summaries against scientific literature, uncertainty, ethics, PHI boundaries, and public communication needs.</p>
+                <div class="pill-grid"><span class="pill">NS</span><span class="pill">CCO</span><span class="pill">WCd</span></div>
+              </article>
+              <article class="major-card">
+                <h3>History / American Studies</h3>
+                <p>Students critique AI historical narratives by tracing evidence, missing voices, primary sources, and development over time.</p>
+                <div class="pill-grid"><span class="pill">HST</span><span class="pill">CCD</span><span class="pill">WCr</span></div>
+              </article>
+              <article class="major-card">
+                <h3>Economics / Labor Studies</h3>
+                <p>Students examine AI's labor-market effects with quantitative evidence, inequality analysis, and transparent assumptions.</p>
+                <div class="pill-grid"><span class="pill">QQ</span><span class="pill">SCL</span><span class="pill">CCD</span></div>
+              </article>
+              <article class="major-card">
+                <h3>Journalism / Communication</h3>
+                <p>Students verify AI-assisted reporting with source triangulation, attribution, audience analysis, copyright review, and editorial revision.</p>
+                <div class="pill-grid"><span class="pill">WCd</span><span class="pill">WCr</span><span class="pill">CCO</span></div>
+              </article>
+            </div>
+          </div>
+
+          <div class="core-roadmap" aria-label="SAS Core AI implementation roadmap">
+            <article class="card phase">
+              <h3>1. Map Goals</h3>
+              <p>Identify which Core goals already ask students to reason about evidence, sources, quantitative claims, social impact, or disciplinary communication.</p>
+            </article>
+            <article class="card phase">
+              <h3>2. Redesign Assignments</h3>
+              <p>Add AI-use rules, library source requirements, disclosure notes, evidence checks, and major-specific AI examples.</p>
+            </article>
+            <article class="card phase">
+              <h3>3. Assess Judgment</h3>
+              <p>Grade the student's reasoning, verification, source quality, method critique, revision, and reflection, not only the final answer.</p>
+            </article>
+            <article class="card phase">
+              <h3>4. Share Standards</h3>
+              <p>Publish reusable rubrics and examples through teaching centers, Libraries, SAS departments, and the broader AI curriculum dashboard.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="google-ai-foundations">
+          <div class="section-head">
+            <div>
+              <h2>Google AI Foundations</h2>
+              <p>Google education tools can serve as a foundational practice layer when Rutgers frames them around learning goals, source grounding, instructor control, student reflection, and library-led information practices.</p>
+            </div>
+          </div>
+
+          <div class="grid google-grid">
+            <article class="google-card">
+              <h3>Gemini Guided Learning</h3>
+              <p>Use Gemini as a study coach for explaining concepts, generating practice questions, and helping students reflect on what they do and do not understand.</p>
+              <div class="pill-grid">
+                <span class="pill">Study support</span>
+                <span class="pill">Reflection</span>
+                <span class="pill">Human review</span>
+              </div>
+            </article>
+            <article class="google-card">
+              <h3>NotebookLM</h3>
+              <p>Use source-grounded notebooks for course readings, library research packets, research notes, and citation-aware synthesis exercises.</p>
+              <div class="pill-grid">
+                <span class="pill">Source grounding</span>
+                <span class="pill">Research notes</span>
+                <span class="pill">Citation checks</span>
+              </div>
+            </article>
+            <article class="google-card">
+              <h3>Practice Tests</h3>
+              <p>Convert instructor-approved course materials into formative quizzes that support retrieval practice and reveal gaps before high-stakes assessment.</p>
+              <div class="pill-grid">
+                <span class="pill">Formative assessment</span>
+                <span class="pill">Study skills</span>
+                <span class="pill">Feedback loops</span>
+              </div>
+            </article>
+            <article class="google-card">
+              <h3>Gemini In Classroom</h3>
+              <p>Support instructor-created assignments, course-material grounding, and insight workflows while preserving faculty control over learning outcomes.</p>
+              <div class="pill-grid">
+                <span class="pill">Course materials</span>
+                <span class="pill">Instructor control</span>
+                <span class="pill">Learning insights</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="google-interactive">
+            <div class="section-head">
+              <div>
+                <h2>Interactive Google AI Curriculum Builder</h2>
+                <p>Select a foundational tool to see where it fits, what the library checks, and which examples make the learning visible.</p>
+              </div>
+            </div>
+            <div class="tabs" role="tablist" aria-label="Google AI tools">
+              <button type="button" role="tab" aria-selected="true" data-google-tool="gemini">Gemini</button>
+              <button type="button" role="tab" aria-selected="false" data-google-tool="notebooklm">NotebookLM</button>
+              <button type="button" role="tab" aria-selected="false" data-google-tool="practice">Practice Tests</button>
+              <button type="button" role="tab" aria-selected="false" data-google-tool="classroom">Classroom</button>
+            </div>
+
+            <div class="google-tool-panel">
+              <article class="tool-summary">
+                <h3 id="google-tool-title">Gemini Guided Learning</h3>
+                <p id="google-tool-summary">Use Gemini as a study coach for explanation, practice, and reflection while keeping students responsible for verification.</p>
+                <div class="pill-grid" id="google-tool-pills"></div>
+                <h3>Library Guardrail</h3>
+                <p id="google-tool-library">Require students to compare AI explanations with library-vetted sources and document verification steps.</p>
+              </article>
+
+              <article class="visual-panel">
+                <h3>Curriculum Fit Visualization</h3>
+                <div class="chart-row">
+                  <div class="chart-label"><span>AI literacy</span><span id="bar-literacy-label">90%</span></div>
+                  <div class="mini-bar"><span id="bar-literacy" style="--value: 90%"></span></div>
+                </div>
+                <div class="chart-row">
+                  <div class="chart-label"><span>Pedagogy fit</span><span id="bar-pedagogy-label">82%</span></div>
+                  <div class="mini-bar"><span id="bar-pedagogy" style="--value: 82%"></span></div>
+                </div>
+                <div class="chart-row">
+                  <div class="chart-label"><span>Library integration</span><span id="bar-library-label">76%</span></div>
+                  <div class="mini-bar"><span id="bar-library" style="--value: 76%"></span></div>
+                </div>
+                <div class="chart-row">
+                  <div class="chart-label"><span>Assessment evidence</span><span id="bar-assessment-label">70%</span></div>
+                  <div class="mini-bar"><span id="bar-assessment" style="--value: 70%"></span></div>
+                </div>
+              </article>
+            </div>
+
+            <div class="examples-panel">
+              <h3>Example Examples</h3>
+              <div class="example-grid" id="google-examples"></div>
+            </div>
+          </div>
+
+          <div class="major-visual">
+            <h3>How Rutgers Should Integrate Google Tools Into The Foundational Curriculum</h3>
+            <div class="foundation-flow" aria-label="Google AI foundational curriculum flow">
+              <article class="flow-step">
+                <div class="step-marker">1</div>
+                <h3>Approve The Use Case</h3>
+                <p>Start with Rutgers-approved accounts, course policy, accessibility expectations, and data classification before students use a tool.</p>
+              </article>
+              <article class="flow-step">
+                <div class="step-marker">2</div>
+                <h3>Ground In Sources</h3>
+                <p>Use library databases, instructor readings, and licensed materials only when terms allow. Require source lists and evidence trails.</p>
+              </article>
+              <article class="flow-step">
+                <div class="step-marker">3</div>
+                <h3>Practice Learning</h3>
+                <p>Use Gemini, NotebookLM, and practice tests for explanation, review, retrieval practice, and self-assessment, not answer substitution.</p>
+              </article>
+              <article class="flow-step">
+                <div class="step-marker">4</div>
+                <h3>Disclose And Verify</h3>
+                <p>Students document prompts, sources, AI help received, verification steps, and what they changed after review.</p>
+              </article>
+              <article class="flow-step">
+                <div class="step-marker">5</div>
+                <h3>Assess Judgment</h3>
+                <p>Faculty and librarians assess source quality, citation accuracy, fair use reasoning, reflection, and learning outcomes.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="grid library-band">
+            <article class="card">
+              <h3>Library Component</h3>
+              <ul class="compact-list">
+                <li>Teach students how to build NotebookLM source sets from appropriate scholarly and course materials.</li>
+                <li>Flag licensed-content limits before uploading readings, datasets, media, or database exports into AI tools.</li>
+                <li>Provide checklists for fabricated citations, weak evidence, missing viewpoints, and unsupported summaries.</li>
+                <li>Co-design assignments that require AI workflow notes, source verification, and fair use reflection.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Foundational Examples</h3>
+              <ul class="compact-list">
+                <li>First-year writing: compare a Gemini outline with library-source evidence and revise with citations.</li>
+                <li>Biology: use NotebookLM to study instructor-approved articles, then verify claims against primary literature.</li>
+                <li>History: build a source-grounded notebook and identify what the AI summary omits from primary sources.</li>
+                <li>Data science: use Gemini to explain code concepts, then test results independently and document errors.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="nj-ai-hub">
+          <div class="section-head">
+            <div>
+              <h2>NJ AI Hub Alignment</h2>
+              <p>The curriculum should connect Rutgers readiness to the statewide AI ecosystem: frontier R&D, innovation, workforce development, cross-sector partnerships, and beneficial AI.</p>
+            </div>
+          </div>
+          <div class="grid hub-grid">
+            <article class="card hub-card">
+              <h3>Statewide AI Readiness</h3>
+              <p>Position Rutgers as an anchor in New Jersey's coordinated AI ecosystem, with curriculum tied to public benefit, inclusive opportunity, and the state's advanced AI economy.</p>
+              <div class="pill-grid">
+                <span class="pill">R&D</span>
+                <span class="pill">Innovation</span>
+                <span class="pill">Workforce</span>
+                <span class="pill">Beneficial AI</span>
+              </div>
+            </article>
+            <article class="card hub-card">
+              <h3>Faculty Futures Model</h3>
+              <p>Use cross-institutional faculty collaboration to co-develop modular curriculum, experiential learning exercises, and responsible AI governance frameworks.</p>
+              <div class="pill-grid">
+                <span class="pill">Teaching</span>
+                <span class="pill">Learning</span>
+                <span class="pill">Academic integrity</span>
+                <span class="pill">Governance</span>
+              </div>
+            </article>
+            <article class="card hub-card">
+              <h3>Resource Repository</h3>
+              <p>Map Rutgers modules to reusable repository themes: AI foundations, governance and policy, critical and ethical AI, technical foundations, accessibility, privacy, and research oversight.</p>
+              <div class="pill-grid">
+                <span class="pill">Open attribution</span>
+                <span class="pill">Adaptable modules</span>
+                <span class="pill">Responsible AI</span>
+              </div>
+            </article>
+            <article class="card hub-card">
+              <h3>Workforce Pathways</h3>
+              <p>Strengthen student and staff pathways with practical AI skills, judgment, problem-solving, hands-on tool use, and career-connected experiences.</p>
+              <div class="pill-grid">
+                <span class="pill">Career readiness</span>
+                <span class="pill">Hands-on practice</span>
+                <span class="pill">Applied skills</span>
+              </div>
+            </article>
+            <article class="card hub-card">
+              <h3>Community And Libraries</h3>
+              <p>Align university libraries with the Hub's community training direction by supporting public AI literacy, source evaluation, fair use, and practical guidance for residents and learners.</p>
+              <div class="pill-grid">
+                <span class="pill">Public libraries</span>
+                <span class="pill">AI literacy</span>
+                <span class="pill">Inclusive access</span>
+              </div>
+            </article>
+            <article class="card hub-card">
+              <h3>Experiential Learning</h3>
+              <p>Add project-based learning, short workplace challenges, showcases, apprenticeships, and employer-informed assignments to make AI fluency visible and useful.</p>
+              <div class="pill-grid">
+                <span class="pill">Showcases</span>
+                <span class="pill">Sprinternships</span>
+                <span class="pill">Apprenticeships</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="libraries">
+          <div class="section-head">
+            <div>
+              <h2>Libraries, Copyright, And Fair Use</h2>
+              <p>University Libraries should be curriculum partners across all pathways, especially for source evaluation, licensing, scholarly communication, and library-record privacy.</p>
+            </div>
+          </div>
+          <div class="library-band">
+            <article class="card">
+              <h3>Library Co-Owned Modules</h3>
+              <div class="pill-grid">
+                <span class="pill">AI literacy</span>
+                <span class="pill">Source evaluation</span>
+                <span class="pill">Citation practice</span>
+                <span class="pill">Copyright</span>
+                <span class="pill">Fair use</span>
+                <span class="pill">Licensing limits</span>
+                <span class="pill">Scholarly communication</span>
+                <span class="pill">Research data</span>
+                <span class="pill">Library-record privacy</span>
+              </div>
+            </article>
+            <article class="card">
+              <h3>Minimum Standard</h3>
+              <ul class="compact-list">
+                <li>Teach that AI output may contain unattributed copyrighted material.</li>
+                <li>Teach fair use as contextual, not automatic.</li>
+                <li>Check license terms before AI ingestion or text/data mining.</li>
+                <li>Require Libraries approval for library circulation or use records.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="library-roadmap">
+          <div class="section-head">
+            <div>
+              <h2>Library Roadmap For AI Integration</h2>
+              <p>A phased visualization of how Rutgers University Libraries can co-own AI literacy standards, copyright and fair use guidance, responsible research practices, and curriculum quality across the university.</p>
+            </div>
+          </div>
+
+          <div class="library-roadmap">
+            <div class="roadmap-visual" aria-label="Libraries AI integration roadmap">
+              <article class="library-step">
+                <div class="step-marker">1</div>
+                <h3>Co-Own Standards</h3>
+                <p>Define Rutgers-wide library standards for AI literacy, attribution, source evaluation, copyright, fair use, licensing, and library-record privacy.</p>
+                <div class="pill-grid">
+                  <span class="pill">AI literacy</span>
+                  <span class="pill">Copyright</span>
+                </div>
+              </article>
+              <article class="library-step">
+                <div class="step-marker">2</div>
+                <h3>Embed In Baseline</h3>
+                <p>Add library-led decision points to AI Essentials: cite sources, verify evidence, classify data, respect licenses, and document AI assistance.</p>
+                <div class="pill-grid">
+                  <span class="pill">AI Essentials</span>
+                  <span class="pill">Disclosure</span>
+                </div>
+              </article>
+              <article class="library-step">
+                <div class="step-marker">3</div>
+                <h3>Support Pathways</h3>
+                <p>Partner with faculty, students, staff, and leadership through course modules, research consults, staff workshops, and governance briefings.</p>
+                <div class="pill-grid">
+                  <span class="pill">Teaching</span>
+                  <span class="pill">Research</span>
+                </div>
+              </article>
+              <article class="library-step">
+                <div class="step-marker">4</div>
+                <h3>Govern Risk</h3>
+                <p>Route sensitive scenarios involving licensed content, research data, library circulation/use records, and public sharing through clear approval paths.</p>
+                <div class="pill-grid">
+                  <span class="pill">Licensing</span>
+                  <span class="pill">Privacy</span>
+                </div>
+              </article>
+              <article class="library-step">
+                <div class="step-marker">5</div>
+                <h3>Measure And Improve</h3>
+                <p>Track instruction reach, source-evaluation outcomes, copyright consults, policy questions, and reusable learning objects each semester.</p>
+                <div class="pill-grid">
+                  <span class="pill">Metrics</span>
+                  <span class="pill">Review</span>
+                </div>
+              </article>
+            </div>
+
+            <div class="standards-grid" aria-label="Library standards integrated into curriculum">
+              <article class="standard-card">
+                <h3>AI Literacy Standard</h3>
+                <p>Learners can explain AI limits, evaluate outputs, detect fabricated citations, and choose appropriate research workflows.</p>
+              </article>
+              <article class="standard-card">
+                <h3>Copyright And Fair Use Standard</h3>
+                <p>Learners assess purpose, source type, amount used, market effect, licensing terms, attribution, and public-sharing risk.</p>
+              </article>
+              <article class="standard-card">
+                <h3>Scholarly Integrity Standard</h3>
+                <p>Learners document AI assistance, preserve evidence trails, cite sources accurately, and distinguish synthesis from unsupported claims.</p>
+              </article>
+              <article class="standard-card">
+                <h3>Data And Records Standard</h3>
+                <p>Learners identify FERPA, PHI, IRB, proprietary, licensed, research, and library-use record scenarios before using AI tools.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="rutgers-ai-lab">
+          <div class="section-head">
+            <div>
+              <h2>Rutgers Libraries AI Lab Model</h2>
+              <p>A proposed Rutgers University Libraries service hub for AI literacy, assignment design, copyright and fair use guidance, scholarly integrity, and responsible AI practice across the curriculum.</p>
+            </div>
+          </div>
+
+          <div class="grid lab-grid">
+            <article class="card lab-hero">
+              <div>
+                <h3>Rutgers Libraries AI Lab</h3>
+                <p>Mission: help students, faculty, staff, and researchers use AI critically, transparently, legally, and in ways that strengthen learning rather than bypass it.</p>
+              </div>
+              <div class="pill-grid">
+                <span class="pill">AI literacy</span>
+                <span class="pill">Source evaluation</span>
+                <span class="pill">Copyright</span>
+                <span class="pill">Fair use</span>
+                <span class="pill">Pedagogy</span>
+                <span class="pill">Research integrity</span>
+              </div>
+              <div class="lab-credit">
+                Modeled as a Rutgers adaptation inspired by the <a href="https://library.virginia.edu/ai/lab">University of Virginia Library AI Lab</a>. Credit: University of Virginia Library.
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Core Services</h3>
+              <div class="deliverable-grid">
+                <div class="deliverable-card">
+                  <h3>Faculty Consults</h3>
+                  <p>Review syllabus AI language, assignment design, source requirements, disclosure expectations, and fair use risks.</p>
+                </div>
+                <div class="deliverable-card">
+                  <h3>Student Clinics</h3>
+                  <p>Teach prompt critique, evidence checking, fabricated citation detection, scholarly search, and transparent workflow documentation.</p>
+                </div>
+                <div class="deliverable-card">
+                  <h3>Copyright Reviews</h3>
+                  <p>Support fair use reasoning, licensed content questions, media reuse, text/data mining boundaries, and public sharing decisions.</p>
+                </div>
+                <div class="deliverable-card">
+                  <h3>Research Support</h3>
+                  <p>Guide literature review workflows, source validation, citation management, research data risk, and AI-assisted synthesis limits.</p>
+                </div>
+                <div class="deliverable-card">
+                  <h3>Tool Evaluation</h3>
+                  <p>Help units compare AI tools against privacy, accessibility, source transparency, data use, and Rutgers-approved tool expectations.</p>
+                </div>
+                <div class="deliverable-card">
+                  <h3>Reusable Curriculum</h3>
+                  <p>Publish modules, rubrics, checklist templates, major examples, and library-led exercises for Core and departmental courses.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="major-visual">
+            <h3>Clear Deliverables For Rutgers</h3>
+            <div class="lab-flow" aria-label="Rutgers Libraries AI Lab service workflow">
+              <article class="flow-step">
+                <div class="step-marker">1</div>
+                <h3>Intake</h3>
+                <p>Collect the course, assignment, research, data, copyright, and tool-use scenario.</p>
+              </article>
+              <article class="flow-step">
+                <div class="step-marker">2</div>
+                <h3>Risk And Learning Review</h3>
+                <p>Map the request to Rutgers AI guidance, Core goals, library standards, and discipline needs.</p>
+              </article>
+              <article class="flow-step">
+                <div class="step-marker">3</div>
+                <h3>Co-Design</h3>
+                <p>Produce a rubric, assignment note, student activity, citation/disclosure language, or workflow checklist.</p>
+              </article>
+              <article class="flow-step">
+                <div class="step-marker">4</div>
+                <h3>Assess And Share</h3>
+                <p>Measure learning evidence, refine the resource, and add reusable examples to the Rutgers AI curriculum dashboard.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="risk">
+          <div class="section-head">
+            <div>
+              <h2>Risk Controls</h2>
+              <p>These controls translate Rutgers AI guidance into decisions learners can make before using AI for university work.</p>
+            </div>
+          </div>
+          <div class="grid risk-grid">
+            <article class="card risk">
+              <h3>Approved Tool Check</h3>
+              <p>Use Rutgers-approved versions for university work. External accounts should not receive university data unless formally approved.</p>
+            </article>
+            <article class="card risk">
+              <h3>Data Classification Check</h3>
+              <p>Screen for confidential, critical, FERPA, PHI, IRB, research, proprietary, library-record, financial, and infrastructure data.</p>
+            </article>
+            <article class="card risk">
+              <h3>Academic Integrity Check</h3>
+              <p>Faculty state course rules clearly. Students follow course-specific permission and disclosure expectations.</p>
+            </article>
+            <article class="card risk">
+              <h3>Copyright Check</h3>
+              <p>Review attribution, fair use, license terms, market effect, and whether AI generated or transformed protected material.</p>
+            </article>
+            <article class="card risk">
+              <h3>Output Review Check</h3>
+              <p>Verify accuracy, bias, missing citations, invented sources, accessibility, and audience appropriateness before use.</p>
+            </article>
+            <article class="card risk">
+              <h3>Purchase Review Check</h3>
+              <p>New AI technology should pass security, accessibility, privacy, procurement, and vendor-risk review.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="roadmap">
+          <div class="section-head">
+            <div>
+              <h2>Implementation Roadmap</h2>
+              <p>A five-phase rollout gives Rutgers a standard model while leaving room for campus and discipline adaptation.</p>
+            </div>
+          </div>
+          <div class="grid roadmap">
+            <article class="card phase">
+              <h3>1. Governance</h3>
+              <p>Name sponsors, OIT owner, Libraries co-owner, academic affairs owner, and campus implementation leads.</p>
+            </article>
+            <article class="card phase">
+              <h3>2. Baseline Launch</h3>
+              <p>Publish AI Essentials, approved tool guidance, data classification aid, and syllabus/disclosure templates.</p>
+            </article>
+            <article class="card phase">
+              <h3>3. Pathways</h3>
+              <p>Deploy student badges, the Teaching GenAI Pathway, faculty community of practice, staff labs, and leadership workshops.</p>
+            </article>
+            <article class="card phase">
+              <h3>4. Advanced Tracks</h3>
+              <p>Add research, health sciences, libraries, law, business, STEM, humanities, creative practice, and NJ AI Hub Faculty Futures-aligned variants.</p>
+            </article>
+            <article class="card phase">
+              <h3>5. Improvement</h3>
+              <p>Review each semester using analytics, surveys, help desk trends, integrity trends, showcase artifacts, and NJ AI Hub resource updates.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="metrics">
+          <div class="section-head">
+            <div>
+              <h2>Metrics And Governance</h2>
+              <p>Use these measures to track adoption, learning quality, responsible use, and operational value.</p>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Measure</th>
+                <th>Signal</th>
+                <th>Owner</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Baseline completion</td>
+                <td>Completion by campus, school, unit, and audience</td>
+                <td>OIT with campus leads</td>
+                <td><span class="status ready">Ready</span></td>
+              </tr>
+              <tr>
+                <td>Student fluency</td>
+                <td>Badge completion, capstone quality, showcase participation</td>
+                <td>Academic affairs</td>
+                <td><span class="status ready">Ready</span></td>
+              </tr>
+              <tr>
+                <td>Faculty pedagogy</td>
+                <td>Teaching GenAI milestone completion, syllabus guidance, redesigned assignments, impact reflections</td>
+                <td>Teaching centers, Libraries</td>
+                <td><span class="status build">Build</span></td>
+              </tr>
+              <tr>
+                <td>SAS Core AI alignment</td>
+                <td>Core goals mapped to AI literacy outcomes, major examples, and library-supported assignment rubrics</td>
+                <td>SAS departments, teaching centers, Libraries</td>
+                <td><span class="status build">Build</span></td>
+              </tr>
+              <tr>
+                <td>Google AI foundations</td>
+                <td>NotebookLM source sets, Gemini study workflows, practice tests, disclosure notes, library verification checklists</td>
+                <td>Faculty, OIT, Libraries</td>
+                <td><span class="status build">Build</span></td>
+              </tr>
+              <tr>
+                <td>Staff productivity</td>
+                <td>Workflow time savings, quality improvements, reusable prompts</td>
+                <td>Unit leaders</td>
+                <td><span class="status ready">Ready</span></td>
+              </tr>
+              <tr>
+                <td>Library integration</td>
+                <td>Instruction reach, source evaluation outcomes, copyright consults, assignment co-designs</td>
+                <td>University Libraries</td>
+                <td><span class="status build">Build</span></td>
+              </tr>
+              <tr>
+                <td>Libraries AI Lab deliverables</td>
+                <td>Consults completed, reusable modules published, copyright reviews, student clinics, assignment redesign packages</td>
+                <td>University Libraries with teaching centers</td>
+                <td><span class="status build">Build</span></td>
+              </tr>
+              <tr>
+                <td>Responsible use</td>
+                <td>Approved tool adoption, privacy incidents, avoided-risk cases</td>
+                <td>OIT, risk, compliance</td>
+                <td><span class="status watch">Monitor</span></td>
+              </tr>
+              <tr>
+                <td>Statewide ecosystem alignment</td>
+                <td>NJ AI Hub resource reuse, showcase participation, employer/community pathway links</td>
+                <td>Academic affairs, OIT, Libraries</td>
+                <td><span class="status build">Build</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <footer>
+        <div>Sources: Rutgers-Newark AI Enablement materials, Rutgers Student AI Fluency Summary, Copilot Professional prompt handout, Rutgers AI guidance, Rutgers data classification and AI matrix, NJ AI Hub guidance, Rutgers Teaching and Generative AI Pathway, SAS Core Curriculum guidance, Google Education ISTE 2026 updates, and the University of Virginia Library AI Lab as an inspiration model.</div>
+        <div class="source-links">
+          <a href="https://blog.google/products-and-platforms/products/education/iste-students-2026/">Google Education ISTE 2026</a>
+          <a href="https://library.virginia.edu/ai/lab">University of Virginia Library AI Lab</a>
+          <a href="https://sasundergrad.rutgers.edu/majors-and-core-curriculum/core">SAS Core Curriculum</a>
+          <a href="https://teaching.rutgers.edu/teaching-and-generative-ai-pathway/">Teaching GenAI Pathway</a>
+          <a href="https://njaihub.org/">NJ AI Hub</a>
+          <a href="https://njaihub.org/workforce">Workforce</a>
+          <a href="https://njaihub.org/workforce/building-educator-institutional-capacity">Educator Capacity</a>
+          <a href="https://njaihub.org/workforce/building-educator-institutional-capacity/faculty-futures-ai-studio">Faculty Futures AI Studio</a>
+          <a href="https://njaihub.org/workforce/building-educator-institutional-capacity/faculty-futures-ai-studio/ffs-resource">Resource Repository</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const pathways = {
+      students: {
+        title: "Student Pathway: AI Fluency Certificate",
+        summary: "A four-badge pathway that builds from AI foundations to responsible leadership, academic productivity, and creative innovation.",
+        artifact: "AI Fluency Showcase portfolio with prompt process, source list, output critique, privacy review, and learning reflection.",
+        owners: ["Academic affairs", "OIT", "University Libraries", "Campus student success leads"],
+        modules: [
+          ["Learn", ["Introduction to AI", "How AI works", "Prompting fundamentals", "Choosing AI tools"]],
+          ["Lead", ["Ethics and bias", "Privacy and security", "Responsible AI", "Academic and professional use"]],
+          ["Apply", ["Writing support", "Research workflows", "Study and productivity", "Rutgers AI tools"]],
+          ["Create", ["Content creation", "Problem solving", "Personal AI workflows", "Innovation project"]]
+        ]
+      },
+      faculty: {
+        title: "Faculty Pathway: Teaching With AI",
+        summary: "A milestone-based pathway that helps instructors understand GenAI, set course guidelines, redesign assignments, assess impact, and continue learning.",
+        artifact: "Teaching GenAI milestone portfolio with course guidelines, redesigned assignment, impact evidence, library-integrated rubric, and reflection.",
+        owners: ["TIIP and teaching centers", "Faculty governance", "University Libraries", "OIT"],
+        modules: [
+          ["Foundational Knowledge", ["How GenAI works", "Tool limits and opportunities", "Course guidelines", "Student GenAI literacy"]],
+          ["Implementation", ["Major assignment redesign", "Learning outcome alignment", "AI use rules", "Library source expectations"]],
+          ["Assessment Of Impact", ["Student achievement evidence", "Reflection prompts", "Citation quality", "Information evaluation"]],
+          ["Ongoing Learning", ["GenAI community of practice", "Design Justice Labs", "Teaching explorations", "Documented reflection"]]
+        ]
+      },
+      staff: {
+        title: "Staff Pathway: AI Productivity And Service Quality",
+        summary: "Role-based practice labs for approved AI tools, safe prompting, meeting effectiveness, reporting, and service workflows.",
+        artifact: "Before-and-after workflow artifact with privacy checklist, accuracy review, and reusable process card.",
+        owners: ["Unit leaders", "OIT", "HR learning partners", "Local IT"],
+        modules: [
+          ["Safe Use", ["Approved tools", "Data classification", "Records awareness", "Human review"]],
+          ["Productivity", ["Outlook", "Word", "PowerPoint", "Teams"]],
+          ["Analytics", ["Excel", "Power BI", "Reporting", "Insights"]],
+          ["Operations", ["Meeting summaries", "Action items", "Stakeholder updates", "Workflow sharing"]]
+        ]
+      },
+      leadership: {
+        title: "Leadership Pathway: AI Strategy And Governance",
+        summary: "Executive workshops and quarterly forums for strategy, governance, risk management, and adoption planning.",
+        artifact: "Unit AI adoption plan with risk register, escalation map, and metrics dashboard proposal.",
+        owners: ["Executive sponsor", "OIT", "Risk and compliance", "Procurement and accessibility leads"],
+        modules: [
+          ["Strategy", ["Institutional opportunities", "Adoption planning", "Workforce development", "Change management"]],
+          ["Governance", ["Accountability", "Policy alignment", "Decision rights", "Review cadence"]],
+          ["Risk", ["Security review", "Privacy review", "Vendor review", "Accessibility review"]],
+          ["Measurement", ["Learning outcomes", "Productivity", "Equity", "Risk incidents"]]
+        ]
+      }
+    };
+
+    const buttons = document.querySelectorAll("[data-pathway]");
+    const title = document.getElementById("pathway-title");
+    const summary = document.getElementById("pathway-summary");
+    const grid = document.getElementById("module-grid");
+    const artifact = document.getElementById("artifact-text");
+    const owners = document.getElementById("owner-list");
+
+    function renderPathway(key) {
+      const data = pathways[key];
+      title.textContent = data.title;
+      summary.textContent = data.summary;
+      artifact.textContent = data.artifact;
+      grid.innerHTML = data.modules.map(([name, items]) => `
+        <div class="module">
+          <strong>${name}</strong>
+          <ul>${items.map(item => `<li>${item}</li>`).join("")}</ul>
+        </div>
+      `).join("");
+      owners.innerHTML = data.owners.map(owner => `<li>${owner}</li>`).join("");
+      buttons.forEach(button => {
+        button.setAttribute("aria-selected", String(button.dataset.pathway === key));
+      });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => renderPathway(button.dataset.pathway));
+    });
+
+    renderPathway("students");
+
+    const googleTools = {
+      gemini: {
+        title: "Gemini Guided Learning",
+        summary: "Use Gemini as a study coach for concept explanation, formative practice, metacognitive reflection, and student-generated study plans.",
+        library: "Require students to compare AI explanations with library-vetted sources, identify unsupported claims, and document verification steps.",
+        pills: ["Study coach", "Reflection", "Concept review", "Verification"],
+        bars: { literacy: 90, pedagogy: 82, library: 76, assessment: 70 },
+        examples: [
+          ["First-Year Writing", "Students ask Gemini for a counterargument map, then verify every claim with library sources and submit a revision note."],
+          ["Calculus", "Students request a step-by-step explanation, mark where they got stuck, and solve a parallel problem without AI."],
+          ["Psychology", "Students compare a Gemini explanation of memory with peer-reviewed evidence and flag oversimplifications."]
+        ]
+      },
+      notebooklm: {
+        title: "NotebookLM Source-Grounded Research",
+        summary: "Use NotebookLM with instructor-approved readings, library research packets, and student source sets for grounded synthesis and study.",
+        library: "Librarians teach source-set construction, licensed-content boundaries, citation checks, and how to spot missing or distorted evidence.",
+        pills: ["Source grounding", "Research packets", "Citation checks", "Synthesis"],
+        bars: { literacy: 88, pedagogy: 86, library: 94, assessment: 84 },
+        examples: [
+          ["Biology", "Students build a notebook from approved articles, generate study questions, then verify claims against primary literature."],
+          ["History", "Students compare a NotebookLM summary with primary sources and identify whose perspective is missing."],
+          ["Public Policy", "Students load policy briefs and scholarly articles, then create an evidence matrix with citations and limitations."]
+        ]
+      },
+      practice: {
+        title: "AI-Generated Practice Tests",
+        summary: "Use AI-supported practice tests for low-stakes retrieval practice, confidence checks, and student preparation before assessments.",
+        library: "Keep practice items tied to course-approved sources and require reflection on wrong answers, weak evidence, and concept gaps.",
+        pills: ["Retrieval practice", "Formative feedback", "Study skills", "Self-assessment"],
+        bars: { literacy: 74, pedagogy: 90, library: 68, assessment: 88 },
+        examples: [
+          ["Chemistry", "Students generate practice questions from a chapter, explain each answer, and cite the course source that supports it."],
+          ["Economics", "Students use practice tests to identify gaps in graph interpretation, then explain one corrected misconception."],
+          ["World Language", "Students practice vocabulary and grammar, then submit a reflection on errors and instructor-approved corrections."]
+        ]
+      },
+      classroom: {
+        title: "Gemini In Classroom",
+        summary: "Use Gemini in Classroom for instructor-guided assignments, course-material grounding, feedback workflows, and learning insights.",
+        library: "Faculty partner with librarians to add research requirements, citation expectations, copyright notes, and source-quality rubrics.",
+        pills: ["Instructor control", "Assignments", "Course materials", "Learning insights"],
+        bars: { literacy: 80, pedagogy: 92, library: 82, assessment: 86 },
+        examples: [
+          ["Core Curriculum", "Faculty add an AI workflow disclosure field and a library source requirement to a Core writing assignment."],
+          ["Journalism", "Students draft interview questions with AI, verify background research, and document source triangulation."],
+          ["Data Science", "Students submit AI-assisted code explanations with tests, error analysis, and independent validation."]
+        ]
+      }
+    };
+
+    const googleButtons = document.querySelectorAll("[data-google-tool]");
+    const googleTitle = document.getElementById("google-tool-title");
+    const googleSummary = document.getElementById("google-tool-summary");
+    const googleLibrary = document.getElementById("google-tool-library");
+    const googlePills = document.getElementById("google-tool-pills");
+    const googleExamples = document.getElementById("google-examples");
+    const googleBars = {
+      literacy: [document.getElementById("bar-literacy"), document.getElementById("bar-literacy-label")],
+      pedagogy: [document.getElementById("bar-pedagogy"), document.getElementById("bar-pedagogy-label")],
+      library: [document.getElementById("bar-library"), document.getElementById("bar-library-label")],
+      assessment: [document.getElementById("bar-assessment"), document.getElementById("bar-assessment-label")]
+    };
+
+    function renderGoogleTool(key) {
+      const data = googleTools[key];
+      googleTitle.textContent = data.title;
+      googleSummary.textContent = data.summary;
+      googleLibrary.textContent = data.library;
+      googlePills.innerHTML = data.pills.map(pill => `<span class="pill">${pill}</span>`).join("");
+      googleExamples.innerHTML = data.examples.map(([title, body]) => `
+        <article class="example-card">
+          <strong>${title}</strong>
+          <p>${body}</p>
+        </article>
+      `).join("");
+      Object.entries(data.bars).forEach(([name, value]) => {
+        const [bar, label] = googleBars[name];
+        bar.style.setProperty("--value", `${value}%`);
+        label.textContent = `${value}%`;
+      });
+      googleButtons.forEach(button => {
+        button.setAttribute("aria-selected", String(button.dataset.googleTool === key));
+      });
+    }
+
+    googleButtons.forEach(button => {
+      button.addEventListener("click", () => renderGoogleTool(button.dataset.googleTool));
+    });
+
+    renderGoogleTool("gemini");
+  </script>
+</body>
+</html>
