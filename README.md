@@ -1,1 +1,1 @@
-# AI-Rsearch-Google-Fellowship
+# AI-Research-Google-Fellowship
