@@ -1239,7 +1239,7 @@
 
     .evaluation-controls {
       display: grid;
-      grid-template-columns: 1.1fr 1.3fr 0.8fr 0.8fr 0.9fr auto;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 10px;
       align-items: end;
     }
@@ -1282,6 +1282,71 @@
     .evaluation-reset:hover {
       border-color: var(--rutgers-red);
       color: var(--rutgers-red);
+    }
+
+    .database-profile,
+    .database-match-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .database-profile {
+      border-left: 4px solid var(--blue);
+    }
+
+    .database-profile h4,
+    .database-match-card h4 {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .database-profile p,
+    .database-match-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .database-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .database-meta {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #f7f9fb;
+      padding: 9px;
+      display: grid;
+      gap: 4px;
+      min-height: 72px;
+    }
+
+    .database-meta span {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .database-meta strong {
+      font-size: 0.84rem;
+    }
+
+    .database-match-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .database-match-card {
+      border-left: 4px solid var(--green);
     }
 
     .evaluation-body {
@@ -1608,6 +1673,8 @@
       .scenario-visual-grid,
       .evaluation-controls,
       .evaluation-body,
+      .database-meta-grid,
+      .database-match-grid,
       .hub-grid,
       .library-band,
       .roadmap-visual,
@@ -1661,6 +1728,8 @@
       .scenario-visual-grid,
       .evaluation-controls,
       .evaluation-body,
+      .database-meta-grid,
+      .database-match-grid,
       .score-options,
       .hub-grid,
       .library-band,
@@ -2303,8 +2372,15 @@
               <div class="evaluation-builder" id="evaluation-builder" hidden>
                 <div class="evaluation-controls">
                   <label class="field-label" for="evaluation-tool-name">
-                    Tool name
-                    <input id="evaluation-tool-name" type="text" placeholder="NotebookLM, Gemini, Elicit, Scite...">
+                    Tool or source name
+                    <input id="evaluation-tool-name" type="text" list="evaluation-source-list" placeholder="NotebookLM, PubMed, Web of Science...">
+                    <datalist id="evaluation-source-list"></datalist>
+                  </label>
+                  <label class="field-label" for="evaluation-database-select">
+                    Database profile
+                    <select id="evaluation-database-select">
+                      <option value="">Select source</option>
+                    </select>
                   </label>
                   <label class="field-label" for="evaluation-search">
                     Search criteria
@@ -2345,6 +2421,9 @@
                   </label>
                   <button class="evaluation-reset" id="evaluation-reset" type="button">Reset</button>
                 </div>
+
+                <div class="database-profile" id="evaluation-database-profile" hidden></div>
+                <div class="database-match-grid" id="evaluation-database-matches"></div>
 
                 <div class="evaluation-body">
                   <div>
@@ -3122,6 +3201,196 @@
       library: "Library Standards"
     };
 
+    const evaluationDatabaseProfiles = [
+      {
+        id: "RU-AI-SRC-NBLM",
+        name: "NotebookLM",
+        type: "AI source-grounded notebook",
+        disciplines: "Cross-disciplinary course readings and student study",
+        searchModes: ["semantic", "hybrid"],
+        identifiers: "Notebook source title, uploaded file name, citation URL",
+        description: "Uses an instructor- or user-defined source set to generate summaries, study guides, questions, and synthesis grounded in uploaded or selected materials.",
+        sourceBoundary: "Best for approved course materials; verify copyright permissions before uploading licensed or unpublished content.",
+        libraryCue: "Use with a source list, AI disclosure note, and librarian-guided citation check."
+      },
+      {
+        id: "RU-AI-SRC-GEM",
+        name: "Gemini",
+        type: "General AI assistant",
+        disciplines: "Cross-disciplinary brainstorming, drafting, and explanation",
+        searchModes: ["semantic", "agentic"],
+        identifiers: "Prompt log, response timestamp, linked source URL",
+        description: "Generates explanations, drafts, comparisons, and study support from prompts and available retrieval features.",
+        sourceBoundary: "Do not treat fluent output as evidence; require independent verification through library and course sources.",
+        libraryCue: "Pair with a validation note documenting prompts, checked sources, and rejected or revised claims."
+      },
+      {
+        id: "RU-AI-DB-RULQS",
+        name: "Rutgers Libraries QuickSearch",
+        type: "Library discovery system",
+        disciplines: "Books, articles, media, archives, and Rutgers holdings",
+        searchModes: ["boolean", "hybrid"],
+        identifiers: "Call number, permalink, ISBN, ISSN, DOI",
+        description: "Searches Rutgers Libraries holdings and indexed scholarly materials for owned, licensed, and discoverable resources.",
+        sourceBoundary: "Use as a campus source-discovery baseline before relying on AI-generated bibliographies.",
+        libraryCue: "Students should capture permalinks and note whether Rutgers provides full-text access."
+      },
+      {
+        id: "RU-AI-DB-GSCH",
+        name: "Google Scholar",
+        type: "Scholarly web index",
+        disciplines: "Cross-disciplinary scholarly discovery",
+        searchModes: ["semantic", "hybrid"],
+        identifiers: "Title, DOI, citation count, author profile, source URL",
+        description: "Broad scholarly search across articles, books, theses, preprints, court opinions, and publisher pages.",
+        sourceBoundary: "Coverage and ranking are opaque; verify peer review, versions, citations, and Rutgers access through library systems.",
+        libraryCue: "Use for discovery, then validate in discipline databases and citation managers."
+      },
+      {
+        id: "RU-AI-DB-WOS",
+        name: "Web of Science",
+        type: "Citation index",
+        disciplines: "Sciences, social sciences, arts, and humanities citation tracing",
+        searchModes: ["boolean", "hybrid"],
+        identifiers: "DOI, accession number, cited references, author identifiers",
+        description: "Supports structured literature searching, citation chaining, research impact review, and indexed journal discovery.",
+        sourceBoundary: "Strong for citation networks; may miss books, local sources, gray literature, and some emerging work.",
+        libraryCue: "Use for transparent search strings, cited-reference mapping, and source-quality validation."
+      },
+      {
+        id: "RU-AI-DB-SCOP",
+        name: "Scopus",
+        type: "Abstract and citation database",
+        disciplines: "STEM, social sciences, health, and interdisciplinary research",
+        searchModes: ["boolean", "hybrid"],
+        identifiers: "DOI, EID, author ID, affiliation ID",
+        description: "Indexes abstracts, citations, author records, affiliations, and analytics for scholarly literature review.",
+        sourceBoundary: "Excellent for indexed scholarship; supplement with subject databases and local or gray literature when needed.",
+        libraryCue: "Use to compare author, affiliation, and citation evidence before accepting AI literature summaries."
+      },
+      {
+        id: "RU-AI-DB-PUBMED",
+        name: "PubMed",
+        type: "Biomedical literature database",
+        disciplines: "Medicine, public health, biology, nursing, and health sciences",
+        searchModes: ["boolean", "semantic"],
+        identifiers: "PMID, PMCID, MeSH terms, DOI, clinical trial number",
+        description: "Searches biomedical and life-science literature with controlled vocabulary, abstracts, and links to full text.",
+        sourceBoundary: "Abstracts are not full evidence; check study design, sample limits, MeSH terms, and full articles.",
+        libraryCue: "Use MeSH terms and PMID tracking in AI-assisted public health or biology assignments."
+      },
+      {
+        id: "RU-AI-DB-IEEE",
+        name: "IEEE Xplore",
+        type: "Engineering and computing database",
+        disciplines: "Computer science, electrical engineering, robotics, AI, data science",
+        searchModes: ["boolean", "semantic"],
+        identifiers: "DOI, IEEE document number, conference title, standards number",
+        description: "Provides technical papers, conference proceedings, standards, and engineering research records.",
+        sourceBoundary: "Strong for technical literature; validate implementation claims with standards, code, datasets, and reproducibility evidence.",
+        libraryCue: "Use for AI systems, algorithms, standards, and engineering ethics validation."
+      },
+      {
+        id: "RU-AI-DB-JSTOR",
+        name: "JSTOR",
+        type: "Scholarly archive",
+        disciplines: "Humanities, social sciences, arts, history, and interdisciplinary study",
+        searchModes: ["boolean", "semantic"],
+        identifiers: "Stable URL, DOI, journal title, publication date",
+        description: "Searches archival scholarly journals, books, images, and primary-source collections.",
+        sourceBoundary: "Excellent for historical depth; check date coverage and supplement with current scholarship.",
+        libraryCue: "Use stable URLs and source context when students compare AI narratives with archival evidence."
+      },
+      {
+        id: "RU-AI-DB-ERIC",
+        name: "ERIC",
+        type: "Education research database",
+        disciplines: "Education, teaching, learning science, assessment, and policy",
+        searchModes: ["boolean", "semantic"],
+        identifiers: "ERIC number, DOI, descriptor terms",
+        description: "Indexes education research, reports, policy documents, and teaching-related literature.",
+        sourceBoundary: "Check peer-review status and distinguish research studies from practice reports or policy briefs.",
+        libraryCue: "Use for AI pedagogy evidence, assignment design, student learning outcomes, and assessment rubrics."
+      },
+      {
+        id: "RU-AI-DB-PSYC",
+        name: "PsycINFO",
+        type: "Psychology literature database",
+        disciplines: "Psychology, behavioral science, education, health, and social science",
+        searchModes: ["boolean", "semantic"],
+        identifiers: "Accession number, DOI, APA thesaurus terms",
+        description: "Indexes behavioral and psychological research with controlled vocabulary and publication metadata.",
+        sourceBoundary: "Validate populations, measures, study design, and claims before using AI summaries in human-subject contexts.",
+        libraryCue: "Use APA terms and source-type filters when evaluating AI claims about learning, cognition, or behavior."
+      },
+      {
+        id: "RU-AI-DB-BSC",
+        name: "Business Source Complete",
+        type: "Business research database",
+        disciplines: "Business, management, marketing, finance, entrepreneurship, supply chain",
+        searchModes: ["boolean", "hybrid"],
+        identifiers: "Accession number, company name, NAICS/SIC, DOI",
+        description: "Supports business research through scholarly articles, trade publications, company information, and industry coverage.",
+        sourceBoundary: "Licensed content may have reuse limits; validate market claims against multiple business sources.",
+        libraryCue: "Use for AI-assisted market analysis, competitor scans, and evidence-backed business recommendations."
+      },
+      {
+        id: "RU-AI-DB-FACT",
+        name: "Factiva",
+        type: "News and business intelligence database",
+        disciplines: "Business, journalism, political science, public policy, global studies",
+        searchModes: ["boolean"],
+        identifiers: "Publication, article ID, company ticker, date, region",
+        description: "Searches licensed news, company, market, and business information across global publications.",
+        sourceBoundary: "Licensed news has strict redistribution limits; quote sparingly and cite source metadata.",
+        libraryCue: "Use for current events validation, company research, and AI claim-checking with publication/date filters."
+      },
+      {
+        id: "RU-AI-DB-NEXIS",
+        name: "Nexis Uni",
+        type: "News, legal, and business database",
+        disciplines: "Law-adjacent research, journalism, public policy, business, criminal justice",
+        searchModes: ["boolean"],
+        identifiers: "Document ID, citation, docket, publication, company record",
+        description: "Provides news, legal, business, and reference sources for structured searching and document retrieval.",
+        sourceBoundary: "Distinguish legal primary sources, commentary, news, and company records before synthesizing.",
+        libraryCue: "Use when AI-supported policy or legal-background work needs source-type and date validation."
+      },
+      {
+        id: "RU-AI-DB-HEIN",
+        name: "HeinOnline",
+        type: "Legal and government document database",
+        disciplines: "Law, public policy, political science, history, government",
+        searchModes: ["boolean"],
+        identifiers: "Legal citation, document title, volume, page, government document number",
+        description: "Searches legal scholarship, statutes, government documents, historical legal materials, and policy sources.",
+        sourceBoundary: "Not a substitute for legal advice; validate jurisdiction, currency, and primary-source status.",
+        libraryCue: "Use for AI policy assignments that need legal-history context and citation precision."
+      },
+      {
+        id: "RU-AI-DB-CINAHL",
+        name: "CINAHL",
+        type: "Nursing and allied health database",
+        disciplines: "Nursing, allied health, public health, occupational therapy, health education",
+        searchModes: ["boolean", "semantic"],
+        identifiers: "Accession number, subject headings, DOI",
+        description: "Indexes nursing and allied health literature with subject headings and clinical relevance filters.",
+        sourceBoundary: "Check clinical context, evidence level, and population fit before using AI-generated summaries.",
+        libraryCue: "Use for health-course validation where source quality and evidence hierarchy matter."
+      },
+      {
+        id: "RU-AI-DB-STAT",
+        name: "Statista",
+        type: "Statistics and market data platform",
+        disciplines: "Business, communication, public policy, social science, marketing",
+        searchModes: ["semantic", "hybrid"],
+        identifiers: "Report title, chart title, source note, publication date",
+        description: "Provides charts, reports, and data summaries from multiple market and public-data sources.",
+        sourceBoundary: "Trace data back to original source notes and watch for licensing limits on redistribution.",
+        libraryCue: "Use for AI-assisted visualization assignments that require source-note and data provenance checks."
+      }
+    ];
+
     const evaluationQuestions = [
       {
         id: "source-disclosure",
@@ -3293,6 +3562,10 @@
     const scenarioVisuals = document.getElementById("scenario-visuals");
     const evaluationBuilder = document.getElementById("evaluation-builder");
     const evaluationToolName = document.getElementById("evaluation-tool-name");
+    const evaluationSourceList = document.getElementById("evaluation-source-list");
+    const evaluationDatabaseSelect = document.getElementById("evaluation-database-select");
+    const evaluationDatabaseProfile = document.getElementById("evaluation-database-profile");
+    const evaluationDatabaseMatches = document.getElementById("evaluation-database-matches");
     const evaluationSearch = document.getElementById("evaluation-search");
     const evaluationLayerFilter = document.getElementById("evaluation-layer-filter");
     const evaluationRiskFilter = document.getElementById("evaluation-risk-filter");
@@ -3378,6 +3651,61 @@
       `).join("");
     }
 
+    function renderDatabaseOptions() {
+      evaluationSourceList.innerHTML = evaluationDatabaseProfiles
+        .map(profile => `<option value="${profile.name}">${profile.id} - ${profile.type}</option>`)
+        .join("");
+      evaluationDatabaseSelect.innerHTML = `
+        <option value="">Select source</option>
+        ${evaluationDatabaseProfiles.map(profile => `<option value="${profile.id}">${profile.name} - ${profile.id}</option>`).join("")}
+      `;
+    }
+
+    function findSelectedDatabaseProfile() {
+      const selectedId = evaluationDatabaseSelect.value;
+      const typedName = evaluationToolName.value.trim().toLowerCase();
+      return evaluationDatabaseProfiles.find(profile => profile.id === selectedId)
+        || evaluationDatabaseProfiles.find(profile => profile.name.toLowerCase() === typedName)
+        || null;
+    }
+
+    function profileMatchesFilters(profile, filters) {
+      const text = [
+        profile.id,
+        profile.name,
+        profile.type,
+        profile.disciplines,
+        profile.identifiers,
+        profile.description,
+        profile.sourceBoundary,
+        profile.libraryCue,
+        profile.searchModes.join(" ")
+      ].join(" ").toLowerCase();
+      const matchesQuery = filters.query === "" || text.includes(filters.query);
+      const matchesSearchMode = filters.searchMode === "all" || profile.searchModes.includes(filters.searchMode) || profile.searchModes.includes("all");
+      return matchesQuery && matchesSearchMode;
+    }
+
+    function renderDatabaseProfile(profile) {
+      evaluationDatabaseProfile.hidden = !profile;
+      evaluationDatabaseProfile.innerHTML = profile ? `
+        <div class="evaluation-question-head">
+          <span class="evaluation-chip">${profile.id}</span>
+          <span class="evaluation-chip">${profile.type}</span>
+          <span class="evaluation-chip">${profile.searchModes.join(" / ")}</span>
+        </div>
+        <h4>${profile.name}</h4>
+        <p>${profile.description}</p>
+        <div class="database-meta-grid">
+          <div class="database-meta"><span>Unique ID</span><strong>${profile.id}</strong></div>
+          <div class="database-meta"><span>Identifiers</span><strong>${profile.identifiers}</strong></div>
+          <div class="database-meta"><span>Disciplines</span><strong>${profile.disciplines}</strong></div>
+          <div class="database-meta"><span>Library cue</span><strong>${profile.libraryCue}</strong></div>
+        </div>
+        <p><strong>Source boundary:</strong> ${profile.sourceBoundary}</p>
+      ` : "";
+    }
+
     function getEvaluationFilters() {
       return {
         query: evaluationSearch.value.trim().toLowerCase(),
@@ -3394,6 +3722,10 @@
         question.layer,
         question.risk,
         question.searchModes.join(" "),
+        findSelectedDatabaseProfile()?.id || "",
+        findSelectedDatabaseProfile()?.name || "",
+        findSelectedDatabaseProfile()?.description || "",
+        findSelectedDatabaseProfile()?.identifiers || "",
         ...question.options.map(([label]) => label)
       ].join(" ").toLowerCase();
       const matchesQuery = filters.query === "" || text.includes(filters.query);
@@ -3415,11 +3747,12 @@
 
     function renderEvaluationScores() {
       const layerScores = getLayerScores();
+      const selectedProfile = findSelectedDatabaseProfile();
       const score = layerScores.reduce((sum, item) => sum + item.score, 0);
       const max = layerScores.reduce((sum, item) => sum + item.max, 0);
       const answered = layerScores.reduce((sum, item) => sum + item.answered, 0);
       const percent = max ? Math.round((score / max) * 100) : 0;
-      const tool = evaluationToolName.value.trim() || "This tool";
+      const tool = selectedProfile ? `${selectedProfile.name} (${selectedProfile.id})` : evaluationToolName.value.trim() || "This tool";
       let readiness = "High review needed";
       if (answered === 0) {
         readiness = "Not yet scored";
@@ -3447,9 +3780,13 @@
       const nextStep = lowLayers.length
         ? `Prioritize review of ${lowLayers.join(", ")} before scaling ${tool} across courses.`
         : `${tool} should still be documented with source limits, disclosure language, and a librarian-supported verification activity.`;
+      const sourceCue = selectedProfile
+        ? `<span><strong>Selected source:</strong> ${selectedProfile.libraryCue}</span>`
+        : "";
 
       evaluationGuidance.innerHTML = `
         <strong>Library review cue</strong>
+        ${sourceCue}
         <span>${nextStep}</span>
         <span>Use the score to route adoption through teaching design, source validation, copyright/fair use, privacy, accessibility, or procurement review.</span>
       `;
@@ -3457,10 +3794,26 @@
 
     function renderEvaluationBuilder() {
       const filters = getEvaluationFilters();
+      const selectedProfile = findSelectedDatabaseProfile();
       const filtered = evaluationQuestions.filter(question => questionMatchesFilters(question, filters));
+      const matchingProfiles = evaluationDatabaseProfiles
+        .filter(profile => profileMatchesFilters(profile, filters))
+        .slice(0, 4);
       evaluationLayerTabs.forEach(button => {
         button.setAttribute("aria-selected", String(button.dataset.evalLayer === activeEvaluationLayer));
       });
+      renderDatabaseProfile(selectedProfile);
+      evaluationDatabaseMatches.innerHTML = filters.query || filters.searchMode !== "all" ? matchingProfiles.map(profile => `
+        <article class="database-match-card">
+          <div class="evaluation-question-head">
+            <span class="evaluation-chip">${profile.id}</span>
+            <span class="evaluation-chip">${profile.searchModes.join(" / ")}</span>
+          </div>
+          <h4>${profile.name}</h4>
+          <p>${profile.description}</p>
+          <p><strong>Identifiers:</strong> ${profile.identifiers}</p>
+        </article>
+      `).join("") : "";
 
       evaluationQuestionList.innerHTML = filtered.length ? filtered.map(question => {
         const selected = evaluationAnswers[question.id];
@@ -3537,6 +3890,22 @@
       renderEvaluationBuilder();
     });
 
+    evaluationDatabaseSelect.addEventListener("change", () => {
+      const profile = findSelectedDatabaseProfile();
+      if (profile) {
+        evaluationToolName.value = profile.name;
+        evaluationSearchModeFilter.value = profile.searchModes.includes("hybrid") ? "hybrid" : profile.searchModes[0];
+      }
+      renderEvaluationBuilder();
+    });
+
+    evaluationToolName.addEventListener("input", () => {
+      const typedName = evaluationToolName.value.trim().toLowerCase();
+      const profile = evaluationDatabaseProfiles.find(item => item.name.toLowerCase() === typedName);
+      evaluationDatabaseSelect.value = profile ? profile.id : "";
+      renderEvaluationBuilder();
+    });
+
     evaluationLayerFilter.addEventListener("change", () => {
       if (evaluationLayerFilter.value !== "all") {
         activeEvaluationLayer = evaluationLayerFilter.value;
@@ -3544,7 +3913,7 @@
       renderEvaluationBuilder();
     });
 
-    [evaluationToolName, evaluationSearch, evaluationRiskFilter, evaluationSearchModeFilter].forEach(control => {
+    [evaluationSearch, evaluationRiskFilter, evaluationSearchModeFilter].forEach(control => {
       control.addEventListener("input", renderEvaluationBuilder);
       control.addEventListener("change", renderEvaluationBuilder);
     });
@@ -3552,6 +3921,7 @@
     evaluationReset.addEventListener("click", () => {
       Object.keys(evaluationAnswers).forEach(key => delete evaluationAnswers[key]);
       evaluationToolName.value = "";
+      evaluationDatabaseSelect.value = "";
       evaluationSearch.value = "";
       evaluationLayerFilter.value = "all";
       evaluationRiskFilter.value = "all";
@@ -3560,6 +3930,7 @@
       renderEvaluationBuilder();
     });
 
+    renderDatabaseOptions();
     renderValidationView("framework");
   </script>
 </body>
