@@ -1045,6 +1045,192 @@
       font-size: 0.84rem;
     }
 
+    .scenario-visual-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .scenario-visual-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      min-height: 286px;
+      border-top: 4px solid var(--rutgers-red);
+    }
+
+    .scenario-visual-card h4 {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .scenario-visual-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .mini-viz {
+      min-height: 118px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f7f9fb;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      align-content: center;
+    }
+
+    .viz-bars {
+      display: grid;
+      gap: 8px;
+    }
+
+    .viz-bar-row {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr) 34px;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .viz-bar-track {
+      height: 10px;
+      border-radius: 999px;
+      background: #e3e8ee;
+      overflow: hidden;
+    }
+
+    .viz-bar-track span {
+      display: block;
+      width: var(--value);
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+    }
+
+    .viz-timeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      position: relative;
+    }
+
+    .viz-timeline::before {
+      content: "";
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 15px;
+      height: 3px;
+      background: var(--line);
+    }
+
+    .viz-timeline-step {
+      position: relative;
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      text-align: center;
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .viz-timeline-step span {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--blue);
+      color: #fff;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 1px var(--line);
+      z-index: 1;
+    }
+
+    .viz-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .viz-matrix-cell {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      padding: 9px;
+      min-height: 46px;
+      font-size: 0.77rem;
+      color: var(--muted);
+      font-weight: 800;
+      display: grid;
+      align-content: center;
+    }
+
+    .viz-matrix-cell.strong {
+      background: #e2f1e6;
+      border-color: #9dceb0;
+      color: #15572b;
+    }
+
+    .viz-matrix-cell.warn {
+      background: #f7e7c9;
+      border-color: #d9b86a;
+      color: #674308;
+    }
+
+    .viz-scatter {
+      position: relative;
+      min-height: 126px;
+      border-left: 2px solid #9aa4b2;
+      border-bottom: 2px solid #9aa4b2;
+      margin: 4px 6px 16px 16px;
+      background:
+        linear-gradient(to right, rgba(216,222,230,0.55) 1px, transparent 1px),
+        linear-gradient(to top, rgba(216,222,230,0.55) 1px, transparent 1px);
+      background-size: 25% 25%;
+    }
+
+    .viz-point {
+      position: absolute;
+      left: var(--x);
+      bottom: var(--y);
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--rutgers-red);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.14);
+    }
+
+    .viz-axis-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin: -10px 4px 0 16px;
+    }
+
+    .scenario-detail {
+      border-left: 3px solid var(--blue);
+      padding-left: 10px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .scenario-detail strong {
+      font-size: 0.84rem;
+    }
+
     .hub-card {
       border-left: 4px solid var(--violet);
       min-height: 190px;
@@ -1210,6 +1396,7 @@
       .validation-layers,
       .spectrum-track,
       .validation-check-grid,
+      .scenario-visual-grid,
       .hub-grid,
       .library-band,
       .roadmap-visual,
@@ -1260,6 +1447,7 @@
       .validation-layers,
       .spectrum-track,
       .validation-check-grid,
+      .scenario-visual-grid,
       .hub-grid,
       .library-band,
       .roadmap-visual,
@@ -1897,6 +2085,7 @@
               <h3 id="validation-output-title">Student Deliverable: AI Research Validation Note</h3>
               <p id="validation-output-copy">Before submitting AI-assisted research, students attach a concise note explaining the tool used, sources checked, claims verified, citations corrected, privacy/copyright considerations, and what changed after human review.</p>
               <div class="validation-check-grid" id="validation-checks"></div>
+              <div class="scenario-visual-grid" id="scenario-visuals" hidden></div>
             </div>
           </div>
         </section>
@@ -2526,19 +2715,63 @@
       scenarios: {
         title: "Scenarios: How Majors Use The Chart",
         sideTitle: "Major-Based Validation",
-        sideCopy: "The same chart can travel across Core courses and majors. The point is not one universal prompt; it is a shared Rutgers habit of checking source scope, disciplinary evidence, and responsible AI use.",
-        pills: ["Writing", "Biology", "History", "Data science"],
+        sideCopy: "Each discipline gets a concrete validation workflow. Students use the chart to turn AI output into a visible research process: source scope, evidence quality, method fit, library checkpoint, and accountable revision.",
+        pills: ["Writing", "Biology", "History", "Data science", "Policy", "Business"],
         layers: [
-          ["W", "Writing", "Compare a Gemini outline with library evidence and note which claims were revised after source review."],
-          ["B", "Biology", "Use NotebookLM with approved articles, then verify summaries against primary literature and uncertainty statements."],
-          ["H", "History", "Ask what the AI summary omits from primary sources, marginalized voices, and historical context."]
+          ["1", "Select Discipline", "Choose the disciplinary evidence standard: scholarly argument, primary literature, archival source, dataset, policy evidence, or market data."],
+          ["2", "Visualize Validation", "Map what the AI produced against verified sources, missing evidence, uncertainty, and revision decisions."],
+          ["3", "Submit Evidence", "Attach a validation note, source trail, visual chart, and disclosure statement to the final assignment."]
         ],
-        outputTitle: "Class Activity: Validation Gallery Walk",
-        outputCopy: "Student teams evaluate one AI-supported research example, post the validation chart, and explain which evidence changed the final claim.",
+        outputTitle: "Class Activity: Discipline Validation Studio",
+        outputCopy: "Student teams pick one discipline scenario, complete the mini visualization, and explain which sources changed the AI-supported draft, analysis, recommendation, or research claim.",
         checks: [
-          ["Discipline Fit", "Does the tool respect how this field defines evidence, method, and authority?"],
-          ["Missing Context", "What voices, datasets, sources, or counterclaims are absent?"],
-          ["Revision Evidence", "What changed between AI output and final student work?"]
+          ["Discipline Fit", "Does the AI workflow respect how this field defines evidence, method, authority, and uncertainty?"],
+          ["Library Checkpoint", "Which library database, research guide, citation standard, or licensed-source boundary must be checked?"],
+          ["Visible Revision", "What changed between AI output and final student work, and which evidence forced the change?"]
+        ],
+        scenarios: [
+          {
+            title: "Writing / Composition",
+            prompt: "A student asks Gemini for a research essay outline on algorithmic bias in hiring, then compares the outline against peer-reviewed sources and library database results.",
+            checkpoint: "Library checkpoint: verify every major claim through scholarly sources and add a citation map for claims that survive.",
+            deliverable: "Deliverable: revised thesis, source-backed claim map, AI disclosure note, and two rejected AI claims.",
+            viz: { type: "bars", rows: [["AI claims", 7], ["Verified", 4], ["Revised", 2], ["Rejected", 1]] }
+          },
+          {
+            title: "Biology / Public Health",
+            prompt: "A student uses NotebookLM with instructor-approved articles to summarize links between air quality and asthma outcomes, then checks claims against primary literature.",
+            checkpoint: "Library checkpoint: separate review articles from primary research and preserve uncertainty, sample limits, and methods.",
+            deliverable: "Deliverable: source funnel showing which articles became evidence, background, or excluded claims.",
+            viz: { type: "funnel", rows: [["Search results", 42], ["Screened abstracts", 18], ["Primary studies", 7], ["Final evidence", 4]] }
+          },
+          {
+            title: "History / American Studies",
+            prompt: "A student asks AI for a narrative of student activism, then validates the summary against digitized primary sources, archives, and missing community perspectives.",
+            checkpoint: "Library checkpoint: identify primary-source dates, creator perspective, archival silences, and secondary-source interpretation.",
+            deliverable: "Deliverable: timeline showing AI narrative claims, primary-source anchors, and missing voices.",
+            viz: { type: "timeline", steps: ["AI claim", "Archive", "Context", "Revision"] }
+          },
+          {
+            title: "Data Science / Computer Science",
+            prompt: "A student asks Gemini to explain model performance for a classification task, then tests the explanation against actual metrics, code, and edge cases.",
+            checkpoint: "Library checkpoint: cite dataset provenance, documentation, and ethical limitations before presenting model conclusions.",
+            deliverable: "Deliverable: validation scatter showing predicted confidence against observed error cases.",
+            viz: { type: "scatter", points: [[18, 22], [32, 38], [45, 28], [61, 64], [76, 48], [86, 82]] }
+          },
+          {
+            title: "Public Policy / Political Science",
+            prompt: "A student uses AI to generate policy options for municipal AI procurement, then compares them with government guidance, legal scholarship, and community impact evidence.",
+            checkpoint: "Library checkpoint: triangulate policy claims across government documents, scholarly literature, and equity impact sources.",
+            deliverable: "Deliverable: policy evidence matrix ranking options by evidence strength and implementation risk.",
+            viz: { type: "matrix", cells: [["High evidence / Low risk", "strong"], ["High evidence / High risk", "warn"], ["Low evidence / Low risk", ""], ["Low evidence / High risk", "warn"]] }
+          },
+          {
+            title: "Business / Supply Chain Analytics",
+            prompt: "A student asks AI to recommend whether a Rutgers-area startup should enter a new market, then validates the answer with market reports, financial assumptions, customer evidence, and competitor data.",
+            checkpoint: "Library checkpoint: use business databases for market sizing, company profiles, industry reports, and citation-compliant use of licensed data.",
+            deliverable: "Deliverable: decision matrix showing market attractiveness, evidence quality, data risk, and recommendation confidence.",
+            viz: { type: "business", cells: [["Market size", "strong"], ["Competition", "warn"], ["Margins", ""], ["Data license", "warn"]] }
+          }
         ]
       },
       evaluate: {
@@ -2606,6 +2839,80 @@
     const validationOutputTitle = document.getElementById("validation-output-title");
     const validationOutputCopy = document.getElementById("validation-output-copy");
     const validationChecks = document.getElementById("validation-checks");
+    const scenarioVisuals = document.getElementById("scenario-visuals");
+
+    function renderMiniViz(viz) {
+      if (viz.type === "bars" || viz.type === "funnel") {
+        const max = Math.max(...viz.rows.map(([, value]) => value));
+        return `
+          <div class="mini-viz viz-bars" aria-label="${viz.type === "funnel" ? "source funnel" : "claim validation bars"}">
+            ${viz.rows.map(([label, value]) => `
+              <div class="viz-bar-row">
+                <span>${label}</span>
+                <div class="viz-bar-track"><span style="--value: ${(value / max) * 100}%"></span></div>
+                <span>${value}</span>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      if (viz.type === "timeline") {
+        return `
+          <div class="mini-viz">
+            <div class="viz-timeline" aria-label="historical validation timeline">
+              ${viz.steps.map((step, index) => `
+                <div class="viz-timeline-step">
+                  <span>${index + 1}</span>
+                  <strong>${step}</strong>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      if (viz.type === "scatter") {
+        return `
+          <div class="mini-viz" aria-label="model validation scatter plot">
+            <div class="viz-scatter">
+              ${viz.points.map(([x, y]) => `<span class="viz-point" style="--x: ${x}%; --y: ${y}%"></span>`).join("")}
+            </div>
+            <div class="viz-axis-label"><span>Low confidence</span><span>High confidence</span></div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="mini-viz">
+          <div class="viz-matrix" aria-label="${viz.type === "business" ? "business decision matrix" : "policy evidence matrix"}">
+            ${viz.cells.map(([label, tone]) => `<div class="viz-matrix-cell ${tone}">${label}</div>`).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderScenarioVisuals(items = []) {
+      scenarioVisuals.hidden = items.length === 0;
+      scenarioVisuals.innerHTML = items.map(item => `
+        <article class="scenario-visual-card">
+          <h4>${item.title}</h4>
+          ${renderMiniViz(item.viz)}
+          <div class="scenario-detail">
+            <strong>Scenario</strong>
+            <p>${item.prompt}</p>
+          </div>
+          <div class="scenario-detail">
+            <strong>Library Checkpoint</strong>
+            <p>${item.checkpoint}</p>
+          </div>
+          <div class="scenario-detail">
+            <strong>Student Deliverable</strong>
+            <p>${item.deliverable}</p>
+          </div>
+        </article>
+      `).join("");
+    }
 
     function renderValidationView(key) {
       const data = validationViews[key];
@@ -2628,6 +2935,7 @@
           <span>${body}</span>
         </article>
       `).join("");
+      renderScenarioVisuals(data.scenarios || []);
       validationButtons.forEach(button => {
         button.setAttribute("aria-selected", String(button.dataset.validationView === key));
       });
