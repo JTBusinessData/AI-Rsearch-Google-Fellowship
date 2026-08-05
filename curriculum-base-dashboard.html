@@ -1231,6 +1231,215 @@
       font-size: 0.84rem;
     }
 
+    .evaluation-builder {
+      display: grid;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .evaluation-controls {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr 0.8fr 0.8fr 0.9fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .field-label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .field-label input,
+    .field-label select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 650;
+      padding: 10px;
+      min-height: 42px;
+    }
+
+    .evaluation-reset {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      min-height: 42px;
+      padding: 0 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .evaluation-reset:hover {
+      border-color: var(--rutgers-red);
+      color: var(--rutgers-red);
+    }
+
+    .evaluation-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .evaluation-layer-tabs {
+      margin-bottom: 12px;
+    }
+
+    .evaluation-question-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .evaluation-question {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .evaluation-question-head {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .evaluation-question h4 {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .evaluation-question p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .evaluation-chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 8px;
+      background: #f7f9fb;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 900;
+    }
+
+    .score-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .score-option {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      padding: 9px;
+      min-height: 46px;
+      text-align: left;
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .score-option:hover,
+    .score-option.selected {
+      border-color: var(--rutgers-red);
+      background: #fff3f3;
+      color: var(--rutgers-red);
+    }
+
+    .evaluation-scorecard {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+      position: sticky;
+      top: 18px;
+    }
+
+    .score-total {
+      border-left: 4px solid var(--green);
+      background: #f4faf6;
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    .score-total strong {
+      display: block;
+      font-size: 1.8rem;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .score-total span,
+    .score-row span,
+    .evaluation-guidance {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .score-row {
+      display: grid;
+      gap: 5px;
+    }
+
+    .score-row-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.84rem;
+      font-weight: 900;
+    }
+
+    .score-meter {
+      height: 9px;
+      border-radius: 999px;
+      background: #e4e8ee;
+      overflow: hidden;
+    }
+
+    .score-meter span {
+      display: block;
+      height: 100%;
+      width: var(--value);
+      border-radius: inherit;
+      background: var(--rutgers-red);
+    }
+
+    .evaluation-guidance {
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .evaluation-empty {
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      color: var(--muted);
+      font-weight: 800;
+      text-align: center;
+    }
+
     .hub-card {
       border-left: 4px solid var(--violet);
       min-height: 190px;
@@ -1397,6 +1606,8 @@
       .spectrum-track,
       .validation-check-grid,
       .scenario-visual-grid,
+      .evaluation-controls,
+      .evaluation-body,
       .hub-grid,
       .library-band,
       .roadmap-visual,
@@ -1448,6 +1659,9 @@
       .spectrum-track,
       .validation-check-grid,
       .scenario-visual-grid,
+      .evaluation-controls,
+      .evaluation-body,
+      .score-options,
       .hub-grid,
       .library-band,
       .roadmap-visual,
@@ -2086,6 +2300,76 @@
               <p id="validation-output-copy">Before submitting AI-assisted research, students attach a concise note explaining the tool used, sources checked, claims verified, citations corrected, privacy/copyright considerations, and what changed after human review.</p>
               <div class="validation-check-grid" id="validation-checks"></div>
               <div class="scenario-visual-grid" id="scenario-visuals" hidden></div>
+              <div class="evaluation-builder" id="evaluation-builder" hidden>
+                <div class="evaluation-controls">
+                  <label class="field-label" for="evaluation-tool-name">
+                    Tool name
+                    <input id="evaluation-tool-name" type="text" placeholder="NotebookLM, Gemini, Elicit, Scite...">
+                  </label>
+                  <label class="field-label" for="evaluation-search">
+                    Search criteria
+                    <input id="evaluation-search" type="search" placeholder="Search source, privacy, copyright, Boolean, citations...">
+                  </label>
+                  <label class="field-label" for="evaluation-layer-filter">
+                    Layer
+                    <select id="evaluation-layer-filter">
+                      <option value="all">All layers</option>
+                      <option value="source">Source base</option>
+                      <option value="model">Model</option>
+                      <option value="wrapper">Wrapper</option>
+                      <option value="library">Library standards</option>
+                    </select>
+                  </label>
+                  <label class="field-label" for="evaluation-risk-filter">
+                    Risk focus
+                    <select id="evaluation-risk-filter">
+                      <option value="all">All risks</option>
+                      <option value="accuracy">Accuracy</option>
+                      <option value="search">Search method</option>
+                      <option value="privacy">Privacy</option>
+                      <option value="copyright">Copyright</option>
+                      <option value="pedagogy">Pedagogy</option>
+                      <option value="accessibility">Accessibility</option>
+                      <option value="governance">Governance</option>
+                    </select>
+                  </label>
+                  <label class="field-label" for="evaluation-search-mode-filter">
+                    Search mode
+                    <select id="evaluation-search-mode-filter">
+                      <option value="all">Any mode</option>
+                      <option value="boolean">Boolean</option>
+                      <option value="semantic">Semantic</option>
+                      <option value="hybrid">Hybrid</option>
+                      <option value="agentic">Agentic</option>
+                    </select>
+                  </label>
+                  <button class="evaluation-reset" id="evaluation-reset" type="button">Reset</button>
+                </div>
+
+                <div class="evaluation-body">
+                  <div>
+                    <div class="tabs evaluation-layer-tabs" id="evaluation-layer-tabs" role="tablist" aria-label="Evaluation layers">
+                      <button type="button" role="tab" aria-selected="true" data-eval-layer="source">Source Base</button>
+                      <button type="button" role="tab" aria-selected="false" data-eval-layer="model">Models</button>
+                      <button type="button" role="tab" aria-selected="false" data-eval-layer="wrapper">Wrapper</button>
+                      <button type="button" role="tab" aria-selected="false" data-eval-layer="library">Library Standards</button>
+                    </div>
+                    <div class="evaluation-question-list" id="evaluation-question-list"></div>
+                  </div>
+
+                  <aside class="evaluation-scorecard" aria-label="Evaluation score summary">
+                    <div class="score-total">
+                      <strong id="evaluation-overall-score">0%</strong>
+                      <span id="evaluation-readiness">Not yet scored</span>
+                    </div>
+                    <div id="evaluation-score-rows"></div>
+                    <div class="evaluation-guidance" id="evaluation-guidance">
+                      <strong>Library review cue</strong>
+                      <span>Answer questions to generate a Rutgers Libraries review pathway for source validation, copyright, fair use, privacy, and teaching use.</span>
+                    </div>
+                  </aside>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -2777,20 +3061,21 @@
       evaluate: {
         title: "Evaluate: Rutgers Research Validation Questions",
         sideTitle: "Before You Trust The Output",
-        sideCopy: "Use the chart as a checkpoint before adopting a tool, building a NotebookLM source set, or allowing AI support in a research assignment.",
-        pills: ["Accuracy", "Privacy", "Copyright", "Accessibility"],
+        sideCopy: "Use this searchable evaluator before adopting a tool, building a NotebookLM source set, or allowing AI support in a research assignment.",
+        pills: ["Searchable criteria", "Layer scoring", "Library review", "Teaching fit"],
         layers: [
-          ["1", "Can We Inspect Sources?", "The tool should show enough evidence for students to verify citations, source quality, and source boundaries."],
-          ["2", "Can We Protect Data?", "Rutgers users must avoid sensitive, restricted, or licensed data uses that exceed policy or contract permissions."],
-          ["3", "Can We Assess Learning?", "The workflow should produce artifacts faculty and librarians can evaluate: notes, citations, logs, and reflection."]
+          ["1", "Search The Criteria Bank", "Filter questions by source base, model, wrapper, library standards, risk focus, or search architecture."],
+          ["2", "Score The Tool", "Answer each question using a three-level score so strengths and gaps are visible."],
+          ["3", "Route For Review", "Use the scorecard to decide whether the tool is course-ready, needs library review, or needs policy review."]
         ],
-        outputTitle: "Rubric Add-On: Research Validation Score",
-        outputCopy: "Add a validation score to AI-assisted assignments so students are rewarded for verification quality, not just polished output.",
+        outputTitle: "Interactive Evaluator: Search, Score, Route",
+        outputCopy: "Evaluate AI research tools through source transparency, model limits, wrapper features, copyright/fair use, privacy, accessibility, and Rutgers Libraries instructional standards.",
         checks: [
-          ["Source Transparency", "Clear source list, citation trail, and distinction between AI claims and verified evidence."],
-          ["Policy Alignment", "Course rules, Rutgers guidance, copyright/fair use, and data classification are addressed."],
-          ["Reflection Quality", "Student explains decisions, uncertainty, and learning gained from checking the tool."]
-        ]
+          ["Search", "Find criteria by discipline, source type, Boolean/semantic search method, copyright, citations, or classroom use."],
+          ["Score", "Build a transparent readiness score across Source Base, Models, Wrapper, and Library Standards."],
+          ["Route", "Identify the next action: faculty adoption, librarian consultation, accessibility review, privacy review, or procurement review."]
+        ],
+        evaluation: true
       },
       compare: {
         title: "Compare: Tool Origin And Incentives",
@@ -2830,6 +3115,172 @@
       }
     };
 
+    const evaluationLayerLabels = {
+      source: "Source Base",
+      model: "Models",
+      wrapper: "Wrapper",
+      library: "Library Standards"
+    };
+
+    const evaluationQuestions = [
+      {
+        id: "source-disclosure",
+        layer: "source",
+        risk: "accuracy",
+        searchModes: ["semantic", "hybrid", "agentic"],
+        question: "Does the tool disclose its source base?",
+        help: "Look for named databases, uploaded course files, web indexes, publisher collections, date ranges, and exclusions.",
+        options: [["Yes, in detail", 3], ["Partially", 2], ["No or unclear", 0]]
+      },
+      {
+        id: "discipline-coverage",
+        layer: "source",
+        risk: "accuracy",
+        searchModes: ["boolean", "semantic", "hybrid"],
+        question: "Does the source base cover the student's discipline adequately?",
+        help: "Compare tool coverage against library databases, research guides, disciplinary methods, and major-specific evidence expectations.",
+        options: [["Strong coverage", 3], ["Some gaps", 2], ["Poor or unknown", 0]]
+      },
+      {
+        id: "bring-sources",
+        layer: "source",
+        risk: "pedagogy",
+        searchModes: ["hybrid", "agentic"],
+        question: "Can students bring approved sources into the tool?",
+        help: "NotebookLM-style source grounding is strongest when faculty or librarians can define the source set.",
+        options: [["Yes", 3], ["Limited", 2], ["No", 0]]
+      },
+      {
+        id: "literature-mix",
+        layer: "source",
+        risk: "accuracy",
+        searchModes: ["boolean", "semantic", "hybrid"],
+        question: "Does it distinguish peer-reviewed literature, gray literature, primary sources, and web material?",
+        help: "Students should know when a claim comes from scholarship, government guidance, news, archives, or unscreened web content.",
+        options: [["Clearly distinguished", 3], ["Mixed but inspectable", 2], ["Unclear mix", 0]]
+      },
+      {
+        id: "search-method",
+        layer: "source",
+        risk: "search",
+        searchModes: ["boolean", "semantic", "hybrid", "agentic"],
+        question: "How does the tool search its sources?",
+        help: "Boolean search is query-term driven; semantic and hybrid search retrieve by meaning; agentic search can plan, browse, and act across sources.",
+        options: [["Semantic, hybrid, or agentic with logs", 3], ["Boolean plus reranking", 2], ["Pure Boolean or unclear", 1]]
+      },
+      {
+        id: "model-identity",
+        layer: "model",
+        risk: "governance",
+        searchModes: ["semantic", "hybrid", "agentic"],
+        question: "Does the tool identify the model or model family used?",
+        help: "A course-ready tool should make model identity, versioning, and major limitations visible enough for faculty review.",
+        options: [["Model/version visible", 3], ["Model family only", 2], ["Not disclosed", 0]]
+      },
+      {
+        id: "date-limits",
+        layer: "model",
+        risk: "accuracy",
+        searchModes: ["semantic", "hybrid"],
+        question: "Can users see knowledge-date limits and update behavior?",
+        help: "Students need to know whether answers use live retrieval, static training data, uploaded documents, or a mix.",
+        options: [["Clear limits", 3], ["Some clues", 2], ["Unclear", 0]]
+      },
+      {
+        id: "bias-hallucination",
+        layer: "model",
+        risk: "accuracy",
+        searchModes: ["semantic", "hybrid", "agentic"],
+        question: "Does the model workflow reduce hallucination, bias, and unsupported synthesis?",
+        help: "Look for citations, passage-level evidence, uncertainty labels, safety notes, and prompts that require verification.",
+        options: [["Strong controls", 3], ["Moderate controls", 2], ["Weak controls", 0]]
+      },
+      {
+        id: "reproducibility",
+        layer: "model",
+        risk: "pedagogy",
+        searchModes: ["agentic", "hybrid"],
+        question: "Can students reproduce or explain the result?",
+        help: "A learning workflow should preserve prompts, source selections, major tool settings, and revision decisions.",
+        options: [["Reproducible", 3], ["Partly reproducible", 2], ["Not reproducible", 0]]
+      },
+      {
+        id: "citation-export",
+        layer: "wrapper",
+        risk: "accuracy",
+        searchModes: ["boolean", "semantic", "hybrid"],
+        question: "Does the interface support citation checking and export?",
+        help: "The wrapper should help students move from AI suggestions to library-verified citations in the required style.",
+        options: [["Citations and export", 3], ["Citations only", 2], ["Weak or missing", 0]]
+      },
+      {
+        id: "workflow-logs",
+        layer: "wrapper",
+        risk: "governance",
+        searchModes: ["agentic", "hybrid"],
+        question: "Does the wrapper preserve search, prompt, and action logs?",
+        help: "Logs matter most when tools browse, summarize many sources, or perform agentic research steps.",
+        options: [["Complete logs", 3], ["Partial logs", 2], ["No logs", 0]]
+      },
+      {
+        id: "accessibility",
+        layer: "wrapper",
+        risk: "accessibility",
+        searchModes: ["all"],
+        question: "Is the tool accessible for students with varied needs?",
+        help: "Check keyboard use, captions or transcripts, screen reader behavior, export formats, and accommodation pathways.",
+        options: [["Accessible", 3], ["Some barriers", 2], ["Unknown or poor", 0]]
+      },
+      {
+        id: "student-reflection",
+        layer: "wrapper",
+        risk: "pedagogy",
+        searchModes: ["all"],
+        question: "Does the workflow produce assessable learning artifacts?",
+        help: "Strong assignments ask students to submit source trails, AI disclosure notes, verification charts, and reflections.",
+        options: [["Strong artifacts", 3], ["Some artifacts", 2], ["Polished output only", 0]]
+      },
+      {
+        id: "copyright",
+        layer: "library",
+        risk: "copyright",
+        searchModes: ["all"],
+        question: "Are copyright, fair use, and licensed-source boundaries addressed?",
+        help: "Rutgers Libraries can help distinguish classroom fair use, licensed database terms, source attribution, and redistribution limits.",
+        options: [["Clearly addressed", 3], ["Needs review", 2], ["Not addressed", 0]]
+      },
+      {
+        id: "privacy-data",
+        layer: "library",
+        risk: "privacy",
+        searchModes: ["agentic", "hybrid"],
+        question: "Does the workflow protect Rutgers data and student information?",
+        help: "Avoid sensitive, restricted, confidential, unpublished, or personally identifiable data unless the approved environment permits it.",
+        options: [["Approved handling", 3], ["Needs privacy check", 2], ["Risky or unclear", 0]]
+      },
+      {
+        id: "course-policy",
+        layer: "library",
+        risk: "pedagogy",
+        searchModes: ["all"],
+        question: "Is the AI use aligned with course rules and academic integrity expectations?",
+        help: "The tool should support transparent use, citation, disclosure, and faculty-defined boundaries for assignments.",
+        options: [["Aligned", 3], ["Needs syllabus language", 2], ["Misaligned", 0]]
+      },
+      {
+        id: "institutional-support",
+        layer: "library",
+        risk: "governance",
+        searchModes: ["all"],
+        question: "Can Rutgers support the tool with training, documentation, and review?",
+        help: "Sustainable adoption needs library instruction, faculty guidance, help pathways, accessibility review, and vendor/procurement awareness.",
+        options: [["Supportable", 3], ["Pilot only", 2], ["Not supportable", 0]]
+      }
+    ];
+
+    const evaluationAnswers = {};
+    let activeEvaluationLayer = "source";
+
     const validationButtons = document.querySelectorAll("[data-validation-view]");
     const validationTitle = document.getElementById("validation-title");
     const validationLayers = document.getElementById("validation-layers");
@@ -2840,6 +3291,19 @@
     const validationOutputCopy = document.getElementById("validation-output-copy");
     const validationChecks = document.getElementById("validation-checks");
     const scenarioVisuals = document.getElementById("scenario-visuals");
+    const evaluationBuilder = document.getElementById("evaluation-builder");
+    const evaluationToolName = document.getElementById("evaluation-tool-name");
+    const evaluationSearch = document.getElementById("evaluation-search");
+    const evaluationLayerFilter = document.getElementById("evaluation-layer-filter");
+    const evaluationRiskFilter = document.getElementById("evaluation-risk-filter");
+    const evaluationSearchModeFilter = document.getElementById("evaluation-search-mode-filter");
+    const evaluationReset = document.getElementById("evaluation-reset");
+    const evaluationLayerTabs = document.querySelectorAll("[data-eval-layer]");
+    const evaluationQuestionList = document.getElementById("evaluation-question-list");
+    const evaluationOverallScore = document.getElementById("evaluation-overall-score");
+    const evaluationReadiness = document.getElementById("evaluation-readiness");
+    const evaluationScoreRows = document.getElementById("evaluation-score-rows");
+    const evaluationGuidance = document.getElementById("evaluation-guidance");
 
     function renderMiniViz(viz) {
       if (viz.type === "bars" || viz.type === "funnel") {
@@ -2914,6 +3378,115 @@
       `).join("");
     }
 
+    function getEvaluationFilters() {
+      return {
+        query: evaluationSearch.value.trim().toLowerCase(),
+        layer: evaluationLayerFilter.value,
+        risk: evaluationRiskFilter.value,
+        searchMode: evaluationSearchModeFilter.value
+      };
+    }
+
+    function questionMatchesFilters(question, filters) {
+      const text = [
+        question.question,
+        question.help,
+        question.layer,
+        question.risk,
+        question.searchModes.join(" "),
+        ...question.options.map(([label]) => label)
+      ].join(" ").toLowerCase();
+      const matchesQuery = filters.query === "" || text.includes(filters.query);
+      const matchesLayer = filters.layer === "all" || question.layer === filters.layer;
+      const matchesRisk = filters.risk === "all" || question.risk === filters.risk;
+      const matchesSearchMode = filters.searchMode === "all" || question.searchModes.includes(filters.searchMode) || question.searchModes.includes("all");
+      return matchesQuery && matchesLayer && matchesRisk && matchesSearchMode;
+    }
+
+    function getLayerScores() {
+      return Object.keys(evaluationLayerLabels).map(layer => {
+        const questions = evaluationQuestions.filter(question => question.layer === layer);
+        const max = questions.reduce((sum, question) => sum + Math.max(...question.options.map(([, score]) => score)), 0);
+        const score = questions.reduce((sum, question) => sum + (evaluationAnswers[question.id] || 0), 0);
+        const answered = questions.filter(question => Object.prototype.hasOwnProperty.call(evaluationAnswers, question.id)).length;
+        return { layer, label: evaluationLayerLabels[layer], score, max, answered, total: questions.length };
+      });
+    }
+
+    function renderEvaluationScores() {
+      const layerScores = getLayerScores();
+      const score = layerScores.reduce((sum, item) => sum + item.score, 0);
+      const max = layerScores.reduce((sum, item) => sum + item.max, 0);
+      const answered = layerScores.reduce((sum, item) => sum + item.answered, 0);
+      const percent = max ? Math.round((score / max) * 100) : 0;
+      const tool = evaluationToolName.value.trim() || "This tool";
+      let readiness = "High review needed";
+      if (answered === 0) {
+        readiness = "Not yet scored";
+      } else if (percent >= 80) {
+        readiness = "Course-ready with documentation";
+      } else if (percent >= 55) {
+        readiness = "Pilot with library review";
+      }
+      evaluationOverallScore.textContent = `${percent}%`;
+      evaluationReadiness.textContent = `${readiness} - ${answered}/${evaluationQuestions.length} questions answered`;
+      evaluationScoreRows.innerHTML = layerScores.map(item => {
+        const value = item.max ? Math.round((item.score / item.max) * 100) : 0;
+        return `
+          <div class="score-row">
+            <div class="score-row-top"><strong>${item.label}</strong><span>${item.score}/${item.max}</span></div>
+            <div class="score-meter"><span style="--value: ${value}%"></span></div>
+            <span>${item.answered}/${item.total} answered</span>
+          </div>
+        `;
+      }).join("");
+
+      const lowLayers = layerScores
+        .filter(item => item.answered > 0 && item.max && (item.score / item.max) < 0.55)
+        .map(item => item.label);
+      const nextStep = lowLayers.length
+        ? `Prioritize review of ${lowLayers.join(", ")} before scaling ${tool} across courses.`
+        : `${tool} should still be documented with source limits, disclosure language, and a librarian-supported verification activity.`;
+
+      evaluationGuidance.innerHTML = `
+        <strong>Library review cue</strong>
+        <span>${nextStep}</span>
+        <span>Use the score to route adoption through teaching design, source validation, copyright/fair use, privacy, accessibility, or procurement review.</span>
+      `;
+    }
+
+    function renderEvaluationBuilder() {
+      const filters = getEvaluationFilters();
+      const filtered = evaluationQuestions.filter(question => questionMatchesFilters(question, filters));
+      evaluationLayerTabs.forEach(button => {
+        button.setAttribute("aria-selected", String(button.dataset.evalLayer === activeEvaluationLayer));
+      });
+
+      evaluationQuestionList.innerHTML = filtered.length ? filtered.map(question => {
+        const selected = evaluationAnswers[question.id];
+        return `
+          <article class="evaluation-question">
+            <div class="evaluation-question-head">
+              <span class="evaluation-chip">${evaluationLayerLabels[question.layer]}</span>
+              <span class="evaluation-chip">${question.risk}</span>
+              <span class="evaluation-chip">${question.searchModes.join(" / ")}</span>
+            </div>
+            <h4>${question.question}</h4>
+            <p>${question.help}</p>
+            <div class="score-options" role="group" aria-label="${question.question}">
+              ${question.options.map(([label, score]) => `
+                <button type="button" class="score-option ${selected === score ? "selected" : ""}" data-eval-question="${question.id}" data-eval-score="${score}">
+                  ${label} (${score})
+                </button>
+              `).join("")}
+            </div>
+          </article>
+        `;
+      }).join("") : `<div class="evaluation-empty">No criteria match this search. Try a broader keyword or reset the filters.</div>`;
+
+      renderEvaluationScores();
+    }
+
     function renderValidationView(key) {
       const data = validationViews[key];
       validationTitle.textContent = data.title;
@@ -2936,6 +3509,10 @@
         </article>
       `).join("");
       renderScenarioVisuals(data.scenarios || []);
+      evaluationBuilder.hidden = !data.evaluation;
+      if (data.evaluation) {
+        renderEvaluationBuilder();
+      }
       validationButtons.forEach(button => {
         button.setAttribute("aria-selected", String(button.dataset.validationView === key));
       });
@@ -2943,6 +3520,44 @@
 
     validationButtons.forEach(button => {
       button.addEventListener("click", () => renderValidationView(button.dataset.validationView));
+    });
+
+    evaluationLayerTabs.forEach(button => {
+      button.addEventListener("click", () => {
+        activeEvaluationLayer = button.dataset.evalLayer;
+        evaluationLayerFilter.value = activeEvaluationLayer;
+        renderEvaluationBuilder();
+      });
+    });
+
+    evaluationQuestionList.addEventListener("click", event => {
+      const option = event.target.closest("[data-eval-question]");
+      if (!option) return;
+      evaluationAnswers[option.dataset.evalQuestion] = Number(option.dataset.evalScore);
+      renderEvaluationBuilder();
+    });
+
+    evaluationLayerFilter.addEventListener("change", () => {
+      if (evaluationLayerFilter.value !== "all") {
+        activeEvaluationLayer = evaluationLayerFilter.value;
+      }
+      renderEvaluationBuilder();
+    });
+
+    [evaluationToolName, evaluationSearch, evaluationRiskFilter, evaluationSearchModeFilter].forEach(control => {
+      control.addEventListener("input", renderEvaluationBuilder);
+      control.addEventListener("change", renderEvaluationBuilder);
+    });
+
+    evaluationReset.addEventListener("click", () => {
+      Object.keys(evaluationAnswers).forEach(key => delete evaluationAnswers[key]);
+      evaluationToolName.value = "";
+      evaluationSearch.value = "";
+      evaluationLayerFilter.value = "all";
+      evaluationRiskFilter.value = "all";
+      evaluationSearchModeFilter.value = "all";
+      activeEvaluationLayer = "source";
+      renderEvaluationBuilder();
     });
 
     renderValidationView("framework");
