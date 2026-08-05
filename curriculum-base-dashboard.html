@@ -805,6 +805,246 @@
       font-size: 0.9rem;
     }
 
+    .validation-chart {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .validation-brand-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
+
+    .validation-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .brand-lockup {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 8px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .rutgers-mark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      background: var(--rutgers-red);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 4px;
+      letter-spacing: 0;
+    }
+
+    .google-wordmark {
+      font-size: 1.15rem;
+      letter-spacing: 0;
+      font-weight: 800;
+    }
+
+    .google-wordmark span:nth-child(1),
+    .google-wordmark span:nth-child(4) {
+      color: #4285f4;
+    }
+
+    .google-wordmark span:nth-child(2),
+    .google-wordmark span:nth-child(6) {
+      color: #db4437;
+    }
+
+    .google-wordmark span:nth-child(3) {
+      color: #f4b400;
+    }
+
+    .google-wordmark span:nth-child(5) {
+      color: #0f9d58;
+    }
+
+    .validation-eyebrow {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .validation-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.65fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .validation-layers {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .validation-layer {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 14px;
+      min-height: 160px;
+      border-top: 4px solid var(--blue);
+    }
+
+    .validation-layer h3 {
+      margin: 0 0 8px;
+      font-size: 0.98rem;
+    }
+
+    .validation-layer p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .validation-layer .layer-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #eef3f7;
+      margin-bottom: 10px;
+      font-weight: 900;
+      color: var(--blue);
+    }
+
+    .validation-side {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .validation-side h3,
+    .validation-spectrum h3,
+    .validation-output h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .validation-side p,
+    .validation-output p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .spectrum-track {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      position: relative;
+    }
+
+    .spectrum-track::before {
+      content: "";
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 19px;
+      height: 4px;
+      background: var(--line);
+      z-index: 0;
+    }
+
+    .spectrum-node {
+      position: relative;
+      z-index: 1;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 12px;
+      min-height: 118px;
+    }
+
+    .spectrum-dot {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--rutgers-red);
+      color: #fff;
+      font-weight: 900;
+      border: 4px solid #fff;
+      box-shadow: 0 0 0 1px var(--line);
+      margin-bottom: 8px;
+    }
+
+    .spectrum-node strong {
+      display: block;
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+
+    .spectrum-node span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .validation-output {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfcfe;
+      border-left: 4px solid var(--green);
+      display: grid;
+      gap: 10px;
+    }
+
+    .validation-check-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .validation-check {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 12px;
+      min-height: 112px;
+    }
+
+    .validation-check strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .validation-check span {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
     .hub-card {
       border-left: 4px solid var(--violet);
       min-height: 190px;
@@ -966,6 +1206,10 @@
       .foundation-flow,
       .google-tool-panel,
       .example-grid,
+      .validation-layout,
+      .validation-layers,
+      .spectrum-track,
+      .validation-check-grid,
       .hub-grid,
       .library-band,
       .roadmap-visual,
@@ -975,7 +1219,8 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .roadmap-visual::before {
+      .roadmap-visual::before,
+      .spectrum-track::before {
         display: none;
       }
     }
@@ -1011,6 +1256,10 @@
       .foundation-flow,
       .google-tool-panel,
       .example-grid,
+      .validation-layout,
+      .validation-layers,
+      .spectrum-track,
+      .validation-check-grid,
       .hub-grid,
       .library-band,
       .roadmap-visual,
@@ -1023,6 +1272,11 @@
       table {
         display: block;
         overflow-x: auto;
+      }
+
+      .validation-brand-row {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
     }
@@ -1042,6 +1296,7 @@
         <a href="#teaching-genai">Teaching GenAI</a>
         <a href="#sas-core-ai">SAS Core AI</a>
         <a href="#google-ai-foundations">Google AI</a>
+        <a href="#research-validation-chart">Validation Chart</a>
         <a href="#nj-ai-hub">NJ AI Hub</a>
         <a href="#libraries">Libraries</a>
         <a href="#library-roadmap">Library Roadmap</a>
@@ -1564,6 +1819,85 @@
                 <li>Data science: use Gemini to explain code concepts, then test results independently and document errors.</li>
               </ul>
             </article>
+          </div>
+        </section>
+
+        <section id="research-validation-chart">
+          <div class="section-head">
+            <div>
+              <h2>Research Validation Chart</h2>
+              <p>An interactive Rutgers framework for evaluating AI research tools before students, faculty, or library teams rely on them for scholarly work. Adapted conceptually from Alfred Wallace's public artifact, "Evaluating AI Tools for Research."</p>
+            </div>
+          </div>
+
+          <div class="validation-chart">
+            <div class="validation-brand-row">
+              <div>
+                <div class="validation-eyebrow">Rutgers Libraries + Google AI literacy practice</div>
+                <h3 id="validation-title">Framework: What Makes Up The Tool?</h3>
+              </div>
+              <div class="validation-logos" aria-label="Rutgers University and Google brand marks">
+                <div class="brand-lockup" aria-label="Rutgers University">
+                  <span class="rutgers-mark">R</span>
+                  <span>Rutgers University</span>
+                </div>
+                <div class="brand-lockup" aria-label="Google">
+                  <span class="google-wordmark" aria-hidden="true"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="tabs" role="tablist" aria-label="Research validation chart views">
+              <button type="button" role="tab" aria-selected="true" data-validation-view="framework">Framework</button>
+              <button type="button" role="tab" aria-selected="false" data-validation-view="scenarios">Scenarios</button>
+              <button type="button" role="tab" aria-selected="false" data-validation-view="evaluate">Evaluate</button>
+              <button type="button" role="tab" aria-selected="false" data-validation-view="compare">Compare</button>
+              <button type="button" role="tab" aria-selected="false" data-validation-view="bigpicture">Big Picture</button>
+            </div>
+
+            <div class="validation-layout">
+              <article>
+                <div class="validation-layers" id="validation-layers"></div>
+              </article>
+
+              <aside class="validation-side">
+                <h3 id="validation-side-title">Library Validation Lens</h3>
+                <p id="validation-side-copy">Treat every AI research tool as a stack: source base, model, wrapper, search method, governance, and library verification. Students learn to ask what the tool knows, how it retrieves, and what Rutgers standards require before use.</p>
+                <div class="pill-grid" id="validation-pills"></div>
+              </aside>
+            </div>
+
+            <div class="validation-spectrum">
+              <h3>Search Architecture Spectrum</h3>
+              <div class="spectrum-track" aria-label="AI research search architecture spectrum">
+                <div class="spectrum-node">
+                  <div class="spectrum-dot">1</div>
+                  <strong>Keyword Layer</strong>
+                  <span>Boolean-style matching; validate search terms, database scope, and missing synonyms.</span>
+                </div>
+                <div class="spectrum-node">
+                  <div class="spectrum-dot">2</div>
+                  <strong>Semantic Retrieval</strong>
+                  <span>Meaning-based retrieval; inspect cited passages, ranking logic, and evidence fit.</span>
+                </div>
+                <div class="spectrum-node">
+                  <div class="spectrum-dot">3</div>
+                  <strong>Generated Synthesis</strong>
+                  <span>AI summary or answer; check citations, omissions, bias, and unsupported claims.</span>
+                </div>
+                <div class="spectrum-node">
+                  <div class="spectrum-dot">4</div>
+                  <strong>Agentic Workflow</strong>
+                  <span>Tool takes actions across sources; require logs, permissions, reproducibility, and human approval.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="validation-output">
+              <h3 id="validation-output-title">Student Deliverable: AI Research Validation Note</h3>
+              <p id="validation-output-copy">Before submitting AI-assisted research, students attach a concise note explaining the tool used, sources checked, claims verified, citations corrected, privacy/copyright considerations, and what changed after human review.</p>
+              <div class="validation-check-grid" id="validation-checks"></div>
+            </div>
           </div>
         </section>
 
@@ -2169,6 +2503,141 @@
     });
 
     renderGoogleTool("gemini");
+
+    const validationViews = {
+      framework: {
+        title: "Framework: What Makes Up The Tool?",
+        sideTitle: "Library Validation Lens",
+        sideCopy: "Treat every AI research tool as a stack: source base, model, wrapper, search method, governance, and library verification. Students learn to ask what the tool knows, how it retrieves, and what Rutgers standards require before use.",
+        pills: ["Source base", "Model limits", "Wrapper features", "Library verification"],
+        layers: [
+          ["S", "Source Base", "What collections, web sources, databases, course readings, or uploaded files does the tool draw from?"],
+          ["M", "Model", "Which model generates or ranks the output, and what limitations, bias, or hallucination risks remain?"],
+          ["W", "Wrapper", "What interface, prompts, export features, citations, or workflow automation shape the user's result?"]
+        ],
+        outputTitle: "Student Deliverable: AI Research Validation Note",
+        outputCopy: "Before submitting AI-assisted research, students attach a concise note explaining the tool used, sources checked, claims verified, citations corrected, privacy/copyright considerations, and what changed after human review.",
+        checks: [
+          ["Evidence Trail", "List the source set, databases, readings, URLs, and citations used to verify the AI output."],
+          ["Tool Limits", "Identify hallucination risk, missing viewpoints, date limits, and where the tool could not explain its search."],
+          ["Human Review", "Describe what the student changed, rejected, or independently confirmed before submission."]
+        ]
+      },
+      scenarios: {
+        title: "Scenarios: How Majors Use The Chart",
+        sideTitle: "Major-Based Validation",
+        sideCopy: "The same chart can travel across Core courses and majors. The point is not one universal prompt; it is a shared Rutgers habit of checking source scope, disciplinary evidence, and responsible AI use.",
+        pills: ["Writing", "Biology", "History", "Data science"],
+        layers: [
+          ["W", "Writing", "Compare a Gemini outline with library evidence and note which claims were revised after source review."],
+          ["B", "Biology", "Use NotebookLM with approved articles, then verify summaries against primary literature and uncertainty statements."],
+          ["H", "History", "Ask what the AI summary omits from primary sources, marginalized voices, and historical context."]
+        ],
+        outputTitle: "Class Activity: Validation Gallery Walk",
+        outputCopy: "Student teams evaluate one AI-supported research example, post the validation chart, and explain which evidence changed the final claim.",
+        checks: [
+          ["Discipline Fit", "Does the tool respect how this field defines evidence, method, and authority?"],
+          ["Missing Context", "What voices, datasets, sources, or counterclaims are absent?"],
+          ["Revision Evidence", "What changed between AI output and final student work?"]
+        ]
+      },
+      evaluate: {
+        title: "Evaluate: Rutgers Research Validation Questions",
+        sideTitle: "Before You Trust The Output",
+        sideCopy: "Use the chart as a checkpoint before adopting a tool, building a NotebookLM source set, or allowing AI support in a research assignment.",
+        pills: ["Accuracy", "Privacy", "Copyright", "Accessibility"],
+        layers: [
+          ["1", "Can We Inspect Sources?", "The tool should show enough evidence for students to verify citations, source quality, and source boundaries."],
+          ["2", "Can We Protect Data?", "Rutgers users must avoid sensitive, restricted, or licensed data uses that exceed policy or contract permissions."],
+          ["3", "Can We Assess Learning?", "The workflow should produce artifacts faculty and librarians can evaluate: notes, citations, logs, and reflection."]
+        ],
+        outputTitle: "Rubric Add-On: Research Validation Score",
+        outputCopy: "Add a validation score to AI-assisted assignments so students are rewarded for verification quality, not just polished output.",
+        checks: [
+          ["Source Transparency", "Clear source list, citation trail, and distinction between AI claims and verified evidence."],
+          ["Policy Alignment", "Course rules, Rutgers guidance, copyright/fair use, and data classification are addressed."],
+          ["Reflection Quality", "Student explains decisions, uncertainty, and learning gained from checking the tool."]
+        ]
+      },
+      compare: {
+        title: "Compare: Tool Origin And Incentives",
+        sideTitle: "Who Built The Tool?",
+        sideCopy: "A tool's origin shapes what it optimizes for. Rutgers should compare vendor, startup, and user-built tools through library, teaching, data, and procurement review.",
+        pills: ["Vendor", "Startup", "User-built", "Procurement"],
+        layers: [
+          ["V", "Vendor Platform", "Often integrated with existing academic platforms or publishers; validate contracts, source scope, and lock-in."],
+          ["S", "Startup Wrapper", "May offer clever features over third-party models; validate sustainability, privacy, accessibility, and citation reliability."],
+          ["U", "User-Built Tool", "May fit a local need; validate maintainability, documentation, bias review, and support boundaries."]
+        ],
+        outputTitle: "Procurement + Pedagogy Comparison Matrix",
+        outputCopy: "Compare tools before campus adoption using source coverage, model transparency, accessibility, privacy, cost, learning value, and library support needs.",
+        checks: [
+          ["Institutional Fit", "Does it align with Rutgers academic, privacy, accessibility, and support expectations?"],
+          ["Source Fit", "Does it improve research quality or merely wrap weak search in fluent prose?"],
+          ["Sustainability", "Can Rutgers maintain training, documentation, review, and user support?"]
+        ]
+      },
+      bigpicture: {
+        title: "Big Picture: From AI Use To Research Integrity",
+        sideTitle: "Libraries As Standards Partner",
+        sideCopy: "The chart positions Rutgers Libraries as a campus standards partner: teaching source validation, copyright/fair use, scholarly search, citation integrity, and responsible AI documentation.",
+        pills: ["Research integrity", "AI literacy", "Fair use", "Campus standards"],
+        layers: [
+          ["L", "Library Instruction", "Embed the chart in workshops, Core courses, research consultations, and AI fluency modules."],
+          ["G", "Google Tool Practice", "Use Gemini and NotebookLM as examples for source-grounded work, study support, and verification habits."],
+          ["R", "Rutgers Standards", "Connect every tool workflow to Rutgers AI guidance, data classification, course rules, and academic integrity."]
+        ],
+        outputTitle: "Campus Standard: Validate, Cite, Disclose",
+        outputCopy: "Rutgers can standardize one simple AI research expectation: validate sources, cite evidence, disclose AI assistance, and preserve human accountability.",
+        checks: [
+          ["Validate", "Check claims against scholarly, course, library, or primary evidence."],
+          ["Cite", "Credit sources and fix fabricated or incomplete citations."],
+          ["Disclose", "Explain AI assistance, prompts, verification, and final human decisions."]
+        ]
+      }
+    };
+
+    const validationButtons = document.querySelectorAll("[data-validation-view]");
+    const validationTitle = document.getElementById("validation-title");
+    const validationLayers = document.getElementById("validation-layers");
+    const validationSideTitle = document.getElementById("validation-side-title");
+    const validationSideCopy = document.getElementById("validation-side-copy");
+    const validationPills = document.getElementById("validation-pills");
+    const validationOutputTitle = document.getElementById("validation-output-title");
+    const validationOutputCopy = document.getElementById("validation-output-copy");
+    const validationChecks = document.getElementById("validation-checks");
+
+    function renderValidationView(key) {
+      const data = validationViews[key];
+      validationTitle.textContent = data.title;
+      validationSideTitle.textContent = data.sideTitle;
+      validationSideCopy.textContent = data.sideCopy;
+      validationPills.innerHTML = data.pills.map(pill => `<span class="pill">${pill}</span>`).join("");
+      validationLayers.innerHTML = data.layers.map(([icon, title, body]) => `
+        <article class="validation-layer">
+          <div class="layer-icon">${icon}</div>
+          <h3>${title}</h3>
+          <p>${body}</p>
+        </article>
+      `).join("");
+      validationOutputTitle.textContent = data.outputTitle;
+      validationOutputCopy.textContent = data.outputCopy;
+      validationChecks.innerHTML = data.checks.map(([title, body]) => `
+        <article class="validation-check">
+          <strong>${title}</strong>
+          <span>${body}</span>
+        </article>
+      `).join("");
+      validationButtons.forEach(button => {
+        button.setAttribute("aria-selected", String(button.dataset.validationView === key));
+      });
+    }
+
+    validationButtons.forEach(button => {
+      button.addEventListener("click", () => renderValidationView(button.dataset.validationView));
+    });
+
+    renderValidationView("framework");
   </script>
 </body>
 </html>
